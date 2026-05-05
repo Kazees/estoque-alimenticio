@@ -1,0 +1,2 @@
+# estoque-alimenticio
+Full Stack: Desafio Plataforma Gerenciamento de Estoque de Produtos Alimentícios: uma aplicação completa, composta por front-end (com Typescript e Vue.js), back-end e banco de dados (Postgresql). Toda a estrutura criada em SQL puro deverá agora ser reescrita utilizando migrations, garantindo maior organização, e controle de versionamento
