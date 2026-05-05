@@ -1,0 +1,70 @@
+services:
+  db:
+    image: postgres
+    restart: unless-stopped
+    container_name: dbestoque
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: dbestoque
+    ports:
+      - 5432:5432
+    volumes:
+      - db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "postgres"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    networks:
+      - estoque_network
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: api
+    ports:
+      - 8080:8080
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    environment:
+      DB_HOST: ${DB_HOST:-localhost}
+      DB_PORT: ${DB_PORT:-5432}
+      DB_USER: ${DB_USER:-postgres}
+      DB_PASSWORD: ${DB_PASSWORD:-postgres}
+      DB_NAME: ${DB_NAME:-dbestoque}
+      APP_ENV: ${APP_ENV:-dev}
+      APP_URL: ${APP_URL:-http://localhost:8080}
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - estoque_network
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile
+    restart: unless-stopped
+    container_name: web
+    ports:
+      - 3000:3000
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    environment:
+      VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
+    depends_on:
+      api:
+        condition: service_started
+    networks:
+      - estoque_network
+
+volumes:
+  db-data:
+
+networks:
+  estoque_network:
+    driver: bridge
