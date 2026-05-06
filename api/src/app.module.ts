@@ -4,6 +4,7 @@ import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from './configs/database/database.config';
+import { AuthModule } from './domain/auth/auth.module';
 
 
 @Module({
@@ -15,8 +16,7 @@ import { DatabaseConfig } from './configs/database/database.config';
       useClass: DatabaseConfig,
       inject: [DatabaseConfig],
     }),
-    
-    ],
+    AuthModule],
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })
