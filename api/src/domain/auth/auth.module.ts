@@ -1,13 +1,15 @@
-import { Module } from "@nestjs/common";
+import { forwardRef, Module } from "@nestjs/common";
 import { ConfigService } from "@nestjs/config";
 import { JwtModule } from '@nestjs/jwt';
-import { AuthController } from "./auth.controller";
-import { AuthService } from "./auth.service";
-import { CryptoService } from "./crypto.service";
+import { AuthController } from "@app/domain/auth/auth.controller";
+import { AuthService } from "@app/domain/auth/auth.service";
+import { CryptoService } from "@app/domain/auth/crypto.service";
+import { FuncionarioAdminModule } from "@app/domain/admin/funcionario/funcionario.admin.module";
 
 @Module({
     imports: [
         JwtModule.registerAsync({
+            global: true,
             useFactory: (configService: ConfigService) => {
                 const secret = configService.get<string>('JWT_SECRET');
                 const expiresIn = Number(configService.get<string>('JWT_EXPIRES')) || '1d';
@@ -18,10 +20,11 @@ import { CryptoService } from "./crypto.service";
             },
             inject: [ConfigService],
         }),
+        forwardRef(() => FuncionarioAdminModule),
     ],
     controllers: [AuthController],
     providers: [AuthService, CryptoService],
-    exports: [AuthService],
+    exports: [AuthService, JwtModule],
 })
 
 export class AuthModule {}

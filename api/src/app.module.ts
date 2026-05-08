@@ -3,8 +3,9 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { DatabaseConfig } from './configs/database/database.config';
-import { AuthModule } from './domain/auth/auth.module';
+import { DatabaseConfig } from '@app/configs/database/database.config';
+import { AuthModule } from '@app/domain/auth/auth.module';
+import { FuncionarioAdminModule } from '@app/domain/admin/funcionario/funcionario.admin.module';
 
 
 @Module({
@@ -16,7 +17,8 @@ import { AuthModule } from './domain/auth/auth.module';
       useClass: DatabaseConfig,
       inject: [DatabaseConfig],
     }),
-    AuthModule],
+    AuthModule,
+    FuncionarioAdminModule],
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })

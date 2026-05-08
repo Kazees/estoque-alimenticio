@@ -25,7 +25,6 @@ export class CreateTableMunicipio1778183266751 implements MigrationInterface {
 
         await queryRunner.query(`
             -- Insert Data --
-
             Insert into Municipio_temp (Codigo, Nome, Uf) values ('1100015','Alta Floresta D''Oeste', 'RO');
             Insert into Municipio_temp (Codigo, Nome, Uf) values ('1100023','Ariquemes', 'RO');
             Insert into Municipio_temp (Codigo, Nome, Uf) values ('1100031','Cabixi', 'RO');

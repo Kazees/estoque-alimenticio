@@ -1,7 +1,5 @@
-import { Body, Controller, HttpCode, Post } from "@nestjs/common";
-import { ConfigService } from "@nestjs/config";
+import { Body, Controller, Post } from "@nestjs/common";
 import { ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { CryptoService } from "./crypto.service";
 import { AuthOutput } from "./auth.output";
 import { AuthInput } from "./auth.input";
 import { AuthService } from "./auth.service";
@@ -14,14 +12,13 @@ export class AuthController {
     ) {}
 
     @Post()
-    @HttpCode(200)
     @ApiOperation({
         summary: 'Authenticate user',
         description: 'Authenticate user and return JWT token'
     })
-    @ApiResponse({ status: 200, description: 'User authenticated', type: AuthOutput })
+    @ApiResponse({ status: 201, description: 'User authenticated', type: AuthOutput })
     @ApiResponse({ status: 403, description: 'Unauthorized' })
-    async login(@Body() input: AuthInput): Promise<undefined> {
-        //return this.authService.login(input.email, input.password);
+    async login(@Body() input: AuthInput): Promise<AuthOutput> {
+        return this.authService.login(input.email, input.password);
     }
 }
