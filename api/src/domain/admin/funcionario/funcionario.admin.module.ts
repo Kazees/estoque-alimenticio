@@ -15,7 +15,7 @@ import { JwtService } from "@nestjs/jwt";
 @Module({
     imports: [TypeOrmModule.forFeature([FuncionarioEntity, ContatoEntity, EnderecoEntity]), forwardRef(() => AuthModule)],
     controllers: [FuncionarioAdminController],
-    providers: [FuncionarioAdminService, FuncionarioAdminRepository, ContatoRepository, EnderecoRepository, CryptoService, JwtService],
+    providers: [FuncionarioAdminService, FuncionarioAdminRepository, ContatoRepository, EnderecoRepository, CryptoService],
     exports: [FuncionarioAdminService, FuncionarioAdminRepository]
 })
 

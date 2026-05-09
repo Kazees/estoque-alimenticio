@@ -12,6 +12,18 @@ export class ContatoRepository {
     ) {}
 
     async save(contato: ContatoInput): Promise<ContatoEntity> {
+        const existing = await this.repository.findOne({
+            where: {
+                codigo_pais: contato.codigo_pais,
+                ddd: contato.ddd,
+                numero: contato.numero,
+            }
+        });
+
+        if (existing) {
+            return existing;
+        }
+
         return this.repository.save(contato);
     }
 }

@@ -9,13 +9,10 @@ export class AuthAdminGuard implements CanActivate {
     constructor(private readonly jwtService: JwtService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-            console.log('=== GUARD CHAMADO ===');
     const request = context.switchToHttp().getRequest<AuthRequest>();
-    console.log('Authorization:', request.headers.authorization);
-    console.log('Headers completos:', JSON.stringify(request.headers));
     const token = this.extractTokenFromHeader(request);
-    console.log('Token:', token);
-        if (!token) throw new UnauthorizedException();
+    
+    if (!token) throw new UnauthorizedException();
 
         try {
             const data = await this.jwtService.verifyAsync(token);
@@ -23,8 +20,6 @@ export class AuthAdminGuard implements CanActivate {
             request.auth = data;
         } 
         catch (error: any) {
-            console.log('JWT Error:', error.message);
-    console.log('Secret usado:', this.jwtService);
             throw new UnauthorizedException({message: 'Funcionário não autenticado'});
         }
 

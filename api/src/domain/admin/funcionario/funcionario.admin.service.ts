@@ -20,6 +20,6 @@ export class FuncionarioAdminService {
         const endereco = await this.enderecoRepository.save(input.endereco);
         const password = await this.cryptoService.hash(input.password);
 
-        return this.funcionarioAdminRepository.save(FuncionarioEntity.of({...input, password}, contato, endereco));
+        return this.funcionarioAdminRepository.save(FuncionarioEntity.of({ ...input, password }, contato, endereco));
     }
 }

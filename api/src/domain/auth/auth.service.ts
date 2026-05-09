@@ -18,6 +18,8 @@ export class AuthService {
         const authenticated = await this.cryptoService.verify(password, auth.password);
         if (!authenticated) throw new UnauthorizedException({message: 'Senha inválida'});
 
+        console.log('Role do funcionário:', auth.role);
+
         const payload: AuthPayload = {
             sub: String(auth.id),
             email: auth.email,
