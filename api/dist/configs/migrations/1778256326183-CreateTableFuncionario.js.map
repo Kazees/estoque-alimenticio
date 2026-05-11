@@ -1,1 +1,0 @@
-{"version":3,"file":"1778256326183-CreateTableFuncionario.js","sourceRoot":"","sources":["../../../src/configs/migrations/1778256326183-CreateTableFuncionario.ts"],"names":[],"mappings":";;;AAEA,MAAa,mCAAmC;IAErC,KAAK,CAAC,EAAE,CAAC,WAAwB;QACpC,MAAM,WAAW,CAAC,KAAK,CAAC;;;;;;;;;;;;;;;;SAgBvB,CAAC,CAAC;IACP,CAAC;IAGM,KAAK,CAAC,IAAI,CAAC,WAAwB,IAAkB,CAAC;CAChE;AAxBD,kFAwBC"}
