@@ -10,7 +10,6 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { FuncionarioEntity } from "@app/domain/main/funcionario/funcionario.entity";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
-import { JwtService } from "@nestjs/jwt";
 
 @Module({
     imports: [TypeOrmModule.forFeature([FuncionarioEntity, ContatoEntity, EnderecoEntity]), forwardRef(() => AuthModule)],
