@@ -18,4 +18,13 @@ export class FuncionarioAdminRepository {
     async findByEmail(email: string): Promise<FuncionarioEntity | null> {
         return this.repository.findOne({where: {email}});
     }
+
+    async list(): Promise<FuncionarioEntity[]> {
+        return this.repository.find({
+            where: {
+                active: true
+            },
+            order: {name: 'asc'}
+        });
+    }
 }

@@ -6,6 +6,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from '@app/configs/database/database.config';
 import { AuthModule } from '@app/domain/auth/auth.module';
 import { FuncionarioAdminModule } from '@app/domain/admin/funcionario/funcionario.admin.module';
+import { FuncionarioModule } from '@app/domain/main/funcionario/funcionario.module';
 
 
 @Module({
@@ -18,7 +19,8 @@ import { FuncionarioAdminModule } from '@app/domain/admin/funcionario/funcionari
       inject: [DatabaseConfig],
     }),
     AuthModule,
-    FuncionarioAdminModule],
+    FuncionarioAdminModule,
+    FuncionarioModule],
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })

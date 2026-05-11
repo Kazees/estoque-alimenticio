@@ -14,4 +14,13 @@ export class EnderecoRepository {
     async save(endereco: EnderecoInput): Promise<EnderecoEntity> {
         return this.repository.save(endereco);
     }
+
+
+    async find(id: number): Promise<EnderecoEntity | null> {
+        return this.repository.findOne({
+            where: {
+                id: id
+            }
+        });
+    }
 }

@@ -25,4 +25,10 @@ export class ContatoEntity {
 
         return contato;
     }
+
+    update(input: ContatoInput) {
+        if (input.codigo_pais) this.codigo_pais = input.codigo_pais;
+        if (input.ddd) this.ddd = input.ddd;
+        if (input.numero) this.numero = input.numero;
+    }
 }

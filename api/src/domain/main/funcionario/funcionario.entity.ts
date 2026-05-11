@@ -2,7 +2,7 @@ import { AuthRoles } from "@app/domain/auth/auth.roles";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
 import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { FuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
+import { FuncionarioInput, UpdateFuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
 
 @Entity({ name: 'Funcionario' })
 export class FuncionarioEntity {
@@ -59,5 +59,12 @@ export class FuncionarioEntity {
 
     inactive () {
         this.active = false;
+    }
+
+    update(input: UpdateFuncionarioInput) {
+        if (input.name) this.name = input.name;
+        if (input.email) this.email = input.email;
+
+        this.updatedAt = new Date();
     }
 }

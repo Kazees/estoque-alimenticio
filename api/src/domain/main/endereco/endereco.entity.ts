@@ -37,4 +37,12 @@ export class EnderecoEntity {
     
         return endereco;
     }
+
+    update(input: EnderecoInput) {
+        if (input.logradouro) this.logradouro = input.logradouro;
+        if (input.numero) this.numero = input.numero;
+        if (input.complemento) this.complemento = input.complemento;
+        if (input.cep) this.cep = input.cep;
+        if (input.bairroId) this.bairroId = input.bairroId;
+    }
 }

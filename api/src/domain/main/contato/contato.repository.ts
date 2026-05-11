@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { Repository } from "typeorm";
-import { ContatoInput } from "./contato.input";
+import { ContatoInput } from "@app/domain/main/contato/contato.input";
 
 @Injectable()
 export class ContatoRepository {
@@ -25,5 +25,13 @@ export class ContatoRepository {
         }
 
         return this.repository.save(contato);
+    }
+    
+    async find(id: number): Promise<ContatoEntity | null> {
+        return this.repository.findOne({
+            where: {
+                id: id
+            }
+        });
     }
 }

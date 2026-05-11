@@ -10,11 +10,12 @@ import { TypeOrmModule } from "@nestjs/typeorm";
 import { FuncionarioEntity } from "@app/domain/main/funcionario/funcionario.entity";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
+import { FuncionarioRepository } from "@app/domain/main/funcionario/funcionario.repository";
 
 @Module({
     imports: [TypeOrmModule.forFeature([FuncionarioEntity, ContatoEntity, EnderecoEntity]), forwardRef(() => AuthModule)],
     controllers: [FuncionarioAdminController],
-    providers: [FuncionarioAdminService, FuncionarioAdminRepository, ContatoRepository, EnderecoRepository, CryptoService],
+    providers: [FuncionarioAdminService, FuncionarioAdminRepository, ContatoRepository, EnderecoRepository, CryptoService, FuncionarioRepository],
     exports: [FuncionarioAdminService, FuncionarioAdminRepository]
 })
 
