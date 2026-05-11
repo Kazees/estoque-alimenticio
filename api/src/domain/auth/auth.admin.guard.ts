@@ -9,17 +9,17 @@ export class AuthAdminGuard implements CanActivate {
     constructor(private readonly jwtService: JwtService) {}
 
     async canActivate(context: ExecutionContext): Promise<boolean> {
-        const request = context.switchToHttp().getRequest<AuthRequest>();
-        const token = this.extractTokenFromHeader(request);
-
-        if (!token) throw new UnauthorizedException();
+    const request = context.switchToHttp().getRequest<AuthRequest>();
+    const token = this.extractTokenFromHeader(request);
+    
+    if (!token) throw new UnauthorizedException();
 
         try {
             const data = await this.jwtService.verifyAsync(token);
             if (data.role !== AuthRoles.ADMIN) throw new UnauthorizedException({message: 'Funcionário sem permissão'});
             request.auth = data;
         } 
-        catch (error) {
+        catch (error: any) {
             throw new UnauthorizedException({message: 'Funcionário não autenticado'});
         }
 
