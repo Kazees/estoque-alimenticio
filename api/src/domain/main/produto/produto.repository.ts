@@ -2,8 +2,8 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProdutoEntity } from "@app/domain/main/produto/produto.entity";
 import { Repository, UpdateResult } from "typeorm";
-import { ProdutoInput } from "./produto.input";
-import { ProdutoFilter } from "./produto.filter";
+import { ProdutoInput } from "@app/domain/main/produto/produto.input";
+import { ProdutoFilter } from "@app/domain/main/produto/produto.filter";
 
 @Injectable()
 export class ProdutoRepository {
@@ -25,15 +25,14 @@ export class ProdutoRepository {
             .createQueryBuilder('produto')
             .leftJoinAndSelect('produto.lote', 'produto_lote')
             .leftJoinAndSelect('produto_lote.lote', 'lote')
-            .where('produto.active = :active', { active: true });
+            .leftJoinAndSelect('produto.cadastrado_funcionario', 'cadastrado_funcionario')
+            .orderBy('lote.data_validade', 'ASC')
+            .addOrderBy('produto_lote.quantidade', 'ASC');
 
-            if (filter?.name) db.andWhere('produto.name LIKE :name', { name: `%${filter.name}%` });
-
-            if (filter?.active) db.andWhere('produto.active = :active', { active: filter.active });
-
-            if (filter?.precoMin) db.andWhere('produto.preco >= :precoMin', { precoMin: filter.precoMin });
-
-            if (filter?.precoMax) db.andWhere('produto.preco <= :precoMax', { precoMax: filter.precoMax });
+        if (filter?.name) db.andWhere('produto.name LIKE :name', { name: `%${filter.name}%` });
+        if (filter?.active !== undefined) db.andWhere('produto.active = :active', { active: filter.active });
+        if (filter?.precoMin) db.andWhere('lote.preco_venda >= :precoMin', { precoMin: filter.precoMin });
+        if (filter?.precoMax) db.andWhere('lote.preco_venda <= :precoMax', { precoMax: filter.precoMax });
 
         return db.getMany();
     }

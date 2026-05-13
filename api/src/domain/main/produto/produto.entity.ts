@@ -4,7 +4,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, One
 import { InformacoesNutricionaisEntity } from "@app/domain/main/informacoes_nutricionais/informacoesNutricionais.entity";
 import { FuncionarioEntity } from "@app/domain/main/funcionario/funcionario.entity";
 import { ProdutoLoteEntity } from "@app/domain/main/produto/produtoLote.entity";
-import { ProdutoInput, UpdateProdutoInput } from "./produto.input";
+import { ProdutoInput, UpdateProdutoInput } from "@app/domain/main/produto/produto.input";
 
 @Entity({ name: 'Produto' })
 @Unique(['codigo'])
@@ -78,6 +78,11 @@ export class ProdutoEntity {
         if (input.categoria) this.categoria = input.categoria;
         if (input.unidadeMedida) this.unidadeMedida = input.unidadeMedida;
 
+        this.updatedAt = new Date();
+    }
+
+    inactive() {
+        this.active = false;
         this.updatedAt = new Date();
     }
 }

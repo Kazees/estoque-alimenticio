@@ -9,6 +9,7 @@ import { FuncionarioAdminModule } from '@app/domain/admin/funcionario/funcionari
 import { FuncionarioModule } from '@app/domain/main/funcionario/funcionario.module';
 import { FornecedorModule } from '@app/domain/main/fornecedor/fornecedor.module';
 import { ProdutoModule } from '@app/domain/main/produto/produto.module';
+import { LoteModule } from '@app/domain/main/lote/lote.module';
 
 
 @Module({
@@ -22,7 +23,8 @@ import { ProdutoModule } from '@app/domain/main/produto/produto.module';
     }),
     AuthModule,
     FuncionarioAdminModule,
-    FuncionarioModule, FornecedorModule, ProdutoModule],
+    FuncionarioModule, FornecedorModule, ProdutoModule,
+    LoteModule],
   controllers: [AppController],
   providers: [AppService, ConfigService],
 })

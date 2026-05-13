@@ -3,8 +3,8 @@ import { LocalizacaoInput } from "@app/domain/main/localizacao/localizacao.input
 
 @Entity({ name: 'Localizacao' })
 export class LocalizacaoEntity {
-    @PrimaryGeneratedColumn('uuid')
-    id: string;
+    @PrimaryGeneratedColumn('increment')
+    id: number;
 
     @Column({ name: 'corredores', nullable: false })
     corredores: string;
@@ -23,11 +23,5 @@ export class LocalizacaoEntity {
         localizacao.seccoes = input.seccoes;
 
         return localizacao;
-    }
-
-    update(input: LocalizacaoInput) {
-        if (input.corredores) this.corredores = input.corredores;
-        if (input.prateleiras) this.prateleiras = input.prateleiras;
-        if (input.seccoes) this.seccoes = input.seccoes;
     }
 }

@@ -1,24 +1,35 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsOptional } from "class-validator";
+import { IsBoolean, IsNumber, IsOptional } from "class-validator";
+import { Transform, Type } from "class-transformer";
 
 export class ProdutoFilter {
-    @ApiPropertyOptional()
+    @ApiPropertyOptional({ example: '' })
     @IsOptional()
     name?: string;
 
     @ApiPropertyOptional()
     @IsOptional()
-    active?: string;
+    @Transform(({ value }) => {
+        if (value === 'true') return true;
+        if (value === 'false') return false;
+        return undefined;
+    })
+    @IsBoolean()
+    active?: boolean;
 
     @ApiPropertyOptional()
     @IsOptional()
+    @Type(() => Number)
+    @IsNumber()
     precoMin?: number;
 
     @ApiPropertyOptional()
     @IsOptional()
+    @Type(() => Number)
+    @IsNumber()
     precoMax?: number;
 
-    constructor(name?: string, active?: string, precoMin?: number, precoMax?: number) {
+    constructor(name?: string, active?: boolean, precoMin?: number, precoMax?: number) {
         this.name = name;
         this.active = active;
         this.precoMin = precoMin;

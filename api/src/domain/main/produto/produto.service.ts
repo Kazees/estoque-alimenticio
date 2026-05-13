@@ -40,4 +40,12 @@ export class ProdutoService {
 
         return produto;
     }
+
+    async delete(id: number): Promise<void> {
+        const produto = await this.produtoRepository.find(id);
+        if (!produto) throw new NotFoundException('Produto nao encontrado');
+        
+        produto.inactive();
+        await this.produtoRepository.save(produto);
+    }
 }

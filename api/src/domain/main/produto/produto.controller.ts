@@ -1,11 +1,12 @@
 import { AuthGuard } from "@app/domain/auth/auth.guard";
-import { Body, Controller, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ProdutoInput, UpdateProdutoInput } from "@app/domain/main/produto/produto.input";
 import { ProdutoOutput } from "@app/domain/main/produto/produto.output";
-import { ProdutoFilter } from "./produto.filter";
+import { ProdutoFilter } from "@app/domain/main/produto/produto.filter";
 import { AuthRequest } from "@app/domain/auth/auth.request";
 import { ProdutoService } from "@app/domain/main/produto/produto.service";
+import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
 
 @ApiBearerAuth()
 @ApiTags('Produto')
@@ -30,16 +31,29 @@ export class ProdutoController {
     }
 
     @Patch('/:id')
+    @UseGuards(AuthAdminGuard)
     @ApiOperation({ 
         summary: 'Atualizar um produto',
         description: 'Atualizar um produto'
     })
     @ApiBody({ type: UpdateProdutoInput, description: 'Informações do produto' })
-    @ApiResponse({ status: 200, description: 'Produto atualizado com sucesso' })
+    @ApiResponse({ status: 200, description: 'Produto atualizado com sucesso', type: ProdutoOutput })
     @ApiResponse({ status: 404, description: 'Erro ao atualizar o produto' })
     async update(@Body() input: UpdateProdutoInput, @Param('id') id: number): Promise<ProdutoOutput> {
         const produto = await this.produtoService.update(input, id);
         return new ProdutoOutput(produto);
+    }
+
+    @Delete('/:id')
+    @UseGuards(AuthAdminGuard)
+    @ApiOperation({ 
+        summary: 'Deletar um produto',
+        description: 'Deletar um produto'
+    })
+    @ApiResponse({ status: 200, description: 'Produto deletado com sucesso' })
+    @ApiResponse({ status: 404, description: 'Erro ao deletar o produto' })
+    async delete(@Param('id') id: number): Promise<void> {
+        await this.produtoService.delete(id);
     }
 
     @Get()

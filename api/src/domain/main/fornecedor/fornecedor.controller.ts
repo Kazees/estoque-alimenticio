@@ -1,9 +1,10 @@
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
-import { FornecedorInput } from "@app/domain/main/fornecedor/fornecedor.input";
+import { FornecedorInput, UpdateFornecedorInput } from "@app/domain/main/fornecedor/fornecedor.input";
 import { FornecedorOutput } from "@app/domain/main/fornecedor/fornecedor.output";
 import { FornecedorService } from "@app/domain/main/fornecedor/fornecedor.service";
 import { AuthGuard } from "@app/domain/auth/auth.guard";
+import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
 
 @ApiBearerAuth()
 @ApiTags('Fornecedor')
@@ -40,6 +41,7 @@ export class FornecedorController {
     }
 
     @Delete('/:id')
+    @UseGuards(AuthAdminGuard)
     @ApiOperation({
         summary: 'Deleta um fornecedor',
         description: 'Deleta um fornecedor'
@@ -49,5 +51,20 @@ export class FornecedorController {
     @ApiResponse({ status: 401, description: 'Funcionario sem permissão' })
     async delete(@Param('id') id: number): Promise<void> {
         await this.fornecedorService.delete(id);
+    }
+
+    @Patch('/:id')
+    @UseGuards(AuthAdminGuard)
+    @ApiOperation({
+        summary: 'Atualiza um fornecedor',
+        description: 'Atualiza um fornecedor'
+    })
+    @ApiParam({ name: 'id', description: 'ID do fornecedor', type: 'string' })
+    @ApiBody({ type: UpdateFornecedorInput, description: 'Informações do fornecedor' })
+    @ApiResponse({ status: 200, description: 'Fornecedor atualizado com sucesso', type: FornecedorOutput })
+    @ApiResponse({ status: 401, description: 'Funcionario sem permissão' })
+    async update(@Body() input: UpdateFornecedorInput, @Param('id') id: string): Promise<FornecedorOutput> {
+        const entity = await this.fornecedorService.update(input, id);
+        return new FornecedorOutput(entity);
     }
 }

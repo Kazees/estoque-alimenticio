@@ -2,6 +2,7 @@ import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, OneToMany, Pri
 import { LocalizacaoEntity } from "@app/domain/main/localizacao/localizacao.entity";
 import { FornecedorEntity } from "@app/domain/main/fornecedor/fornecedor.entity";
 import { ProdutoLoteEntity } from "@app/domain/main/produto/produtoLote.entity";
+import { LoteInput } from "@app/domain/main/lote/lote.input";
 
 @Entity({ name: 'Lote' })
 @Unique(['numero_lote', 'fornecedorId'])
@@ -46,4 +47,18 @@ export class LoteEntity {
 
     @OneToMany(() => ProdutoLoteEntity, (pl) => pl.lote)
     produto: ProdutoLoteEntity[];
+
+    static of(input: LoteInput): LoteEntity {
+        const lote = new LoteEntity();
+
+        lote.numero_lote = input.numero_lote;
+        lote.preco_custo = input.preco_custo;
+        lote.preco_venda = input.preco_venda;
+        lote.localizacaoId = input.localizacaoId;
+        lote.fornecedorId = input.fornecedorId;
+        lote.data_entrada = input.data_entrada;
+        lote.data_validade = input.data_validade;
+
+        return lote;
+    }
 }
