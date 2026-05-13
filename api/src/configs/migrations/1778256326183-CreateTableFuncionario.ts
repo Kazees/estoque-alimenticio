@@ -17,9 +17,7 @@ export class CreateTableFuncionario1778256326183 implements MigrationInterface {
                 "updatedAt" TIMESTAMP NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
                 FOREIGN KEY ("contatoId") REFERENCES "Contato" ("id"),
-                FOREIGN KEY ("enderecoId") REFERENCES "Endereco" ("id"),
-
-                CONSTRAINT un_funcionario_email UNIQUE ("email")
+                FOREIGN KEY ("enderecoId") REFERENCES "Endereco" ("id")
             )
         `);
     }

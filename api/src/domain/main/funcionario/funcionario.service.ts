@@ -3,7 +3,7 @@ import { UpdateFuncionarioInput } from "@app/domain/main/funcionario/funcionario
 import { Injectable, NotFoundException } from "@nestjs/common";
 import { ContatoRepository } from "@app/domain/main/contato/contato.repository";
 import { EnderecoRepository } from "@app/domain/main/endereco/endereco.repository";
-import { FuncionarioRepository } from "@app/domain/main/funcionario/funcionario.repository";
+import { FuncionarioRepository } from "./funcionario.repository";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
 
