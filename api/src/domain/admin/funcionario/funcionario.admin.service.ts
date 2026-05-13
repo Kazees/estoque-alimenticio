@@ -6,6 +6,7 @@ import { FuncionarioAdminRepository } from "@app/domain/admin/funcionario/funcio
 import { ContatoRepository } from "@app/domain/main/contato/contato.repository";
 import { EnderecoRepository } from "@app/domain/main/endereco/endereco.repository";
 import { FuncionarioRepository } from "@app/domain/main/funcionario/funcionario.repository";
+import { AuthRoles } from "@app/domain/auth/auth.roles";
 
 @Injectable()
 export class FuncionarioAdminService {
@@ -32,6 +33,7 @@ export class FuncionarioAdminService {
     async delete(id: number): Promise<void> {
         const funcionario: FuncionarioEntity | null = await this.funcionarioRepository.find(id);
 
+        if (funcionario?.role === AuthRoles.ADMIN) throw new NotFoundException('Funcionario nao pode ser excluido');
         if (!funcionario) throw new NotFoundException('Funcionario nao encontrado');
         
         funcionario.inactive();
