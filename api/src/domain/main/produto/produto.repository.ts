@@ -13,7 +13,11 @@ export class ProdutoRepository {
     ) {}
 
     async save(produto: ProdutoInput): Promise<ProdutoEntity> {
-        return this.repository.save(produto);
+        const saved = await this.repository.save(produto);
+        return this.repository.findOne({
+            where: { id: saved.id },
+            relations: ['cadastrado_funcionario'],
+        }) as Promise<ProdutoEntity>;
     }
 
     async list(filter?: ProdutoFilter): Promise<ProdutoEntity[]> {
