@@ -1,6 +1,4 @@
 import { Module } from '@nestjs/common';
-import { AppController } from './app.controller';
-import { AppService } from './app.service';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DatabaseConfig } from '@app/configs/database/database.config';
@@ -10,6 +8,7 @@ import { FuncionarioModule } from '@app/domain/main/funcionario/funcionario.modu
 import { FornecedorModule } from '@app/domain/main/fornecedor/fornecedor.module';
 import { ProdutoModule } from '@app/domain/main/produto/produto.module';
 import { LoteModule } from '@app/domain/main/lote/lote.module';
+import { TransacoesModule } from '@app/domain/main/transacoes/transacoes.module';
 
 
 @Module({
@@ -24,8 +23,8 @@ import { LoteModule } from '@app/domain/main/lote/lote.module';
     AuthModule,
     FuncionarioAdminModule,
     FuncionarioModule, FornecedorModule, ProdutoModule,
-    LoteModule],
-  controllers: [AppController],
-  providers: [AppService, ConfigService],
+    LoteModule, TransacoesModule],
+  controllers: [],
+  providers: [ConfigService],
 })
 export class AppModule {}

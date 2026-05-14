@@ -3,6 +3,7 @@ import { LocalizacaoEntity } from "@app/domain/main/localizacao/localizacao.enti
 import { FornecedorEntity } from "@app/domain/main/fornecedor/fornecedor.entity";
 import { ProdutoLoteEntity } from "@app/domain/main/produto/produtoLote.entity";
 import { LoteInput } from "@app/domain/main/lote/lote.input";
+import { TransacoesProdutoLoteEntity } from "@app/domain/main/transacoes/transacoesProdutoLote.entity";
 
 @Entity({ name: 'Lote' })
 @Unique(['numero_lote', 'fornecedorId'])
@@ -47,6 +48,9 @@ export class LoteEntity {
 
     @OneToMany(() => ProdutoLoteEntity, (pl) => pl.lote)
     produto: ProdutoLoteEntity[];
+
+    @OneToMany(() => TransacoesProdutoLoteEntity, (tpl) => tpl.lote)
+    transacoesProduto: TransacoesProdutoLoteEntity[];
 
     static of(input: LoteInput): LoteEntity {
         const lote = new LoteEntity();

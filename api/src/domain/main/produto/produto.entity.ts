@@ -5,6 +5,7 @@ import { InformacoesNutricionaisEntity } from "@app/domain/main/informacoes_nutr
 import { FuncionarioEntity } from "@app/domain/main/funcionario/funcionario.entity";
 import { ProdutoLoteEntity } from "@app/domain/main/produto/produtoLote.entity";
 import { ProdutoInput, UpdateProdutoInput } from "@app/domain/main/produto/produto.input";
+import { TransacoesProdutoLoteEntity } from "../transacoes/transacoesProdutoLote.entity";
 
 @Entity({ name: 'Produto' })
 @Unique(['codigo'])
@@ -55,6 +56,9 @@ export class ProdutoEntity {
 
     @OneToMany(() => ProdutoLoteEntity, (pl) => pl.produto)
     lote: ProdutoLoteEntity[];
+
+    @OneToMany(() => TransacoesProdutoLoteEntity, (tpl) => tpl.produto)
+    transacoesProduto: TransacoesProdutoLoteEntity[];
 
     static of(input: ProdutoInput, funcionarioId: number, informacoesNutricionaisId?: number): ProdutoEntity {
        const produto = new ProdutoEntity();
