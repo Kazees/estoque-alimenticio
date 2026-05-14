@@ -19,4 +19,13 @@ export class LoteRepository {
             relations: ['fornecedor', 'fornecedor.contato', 'localizacao']
         });
     }
+
+    async find(id: number): Promise<LoteEntity | null> {
+        return this.repository.findOne({
+            where: { 
+                id: id 
+            },
+            relations: ['fornecedor', 'fornecedor.contato', 'localizacao']
+        });
+    }
 }
