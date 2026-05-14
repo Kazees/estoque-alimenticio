@@ -6,6 +6,9 @@ import { ProdutoEntity } from "@app/domain/main/produto/produto.entity";
 
 export class ProdutoOutput {
     @ApiProperty()
+    id: number;
+
+    @ApiProperty()
     name: string;
 
     @ApiProperty()
@@ -33,6 +36,7 @@ export class ProdutoOutput {
     cadastrado_funcionario: { id: number, name: string };
 
     constructor(produto: ProdutoEntity) {
+        this.id = produto.id;
         this.name = produto.name;
         this.codigo = produto.codigo;
         this.descricao = produto.descricao;
@@ -41,6 +45,6 @@ export class ProdutoOutput {
         this.categoria = produto.categoria;
         this.informacoesNutricionais = produto.informacoesNutricionais;
         this.unidadeMedida = produto.unidadeMedida;
-        this.cadastrado_funcionario = { id: produto.cadastrado_funcionarioId, name: produto.cadastrado_funcionario.name };
+        this.cadastrado_funcionario = { id: produto.cadastrado_funcionarioId, name: produto.cadastrado_funcionario?.name };
     }
 }

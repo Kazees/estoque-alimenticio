@@ -1,4 +1,4 @@
-import { ApiProperty } from "@nestjs/swagger";
+import { ApiProperty, PartialType } from "@nestjs/swagger";
 import { Type } from "class-transformer";
 import { IsNotEmpty, ValidateNested } from "class-validator";
 import { ContatoInput } from "@app/domain/main/contato/contato.input";
@@ -42,4 +42,4 @@ export class FornecedorInput {
     endereco: EnderecoInput;
 }
 
-export class UpdateFornecedorInput extends FornecedorInput {}
+export class UpdateFornecedorInput extends PartialType(FornecedorInput) {}

@@ -5,8 +5,11 @@ import { FornecedorEntity } from "@app/domain/main/fornecedor/fornecedor.entity"
 
 export class FornecedorOutput {
     @ApiProperty()
+    id: number;
+
+    @ApiProperty()
     nome_empresa: string;
-    
+
     @ApiProperty()
     contato: ContatoEntity;
 
@@ -14,6 +17,7 @@ export class FornecedorOutput {
     endereco: EnderecoEntity;
 
     constructor(fornecedor: FornecedorEntity) {
+        this.id = fornecedor.id;
         this.nome_empresa = fornecedor.nome_empresa;
         this.contato = fornecedor.contato;
         this.endereco = fornecedor.endereco;

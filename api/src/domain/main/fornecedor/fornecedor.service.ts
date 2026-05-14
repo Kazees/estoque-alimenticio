@@ -18,8 +18,9 @@ export class FornecedorService {
     async create(input: FornecedorInput): Promise<FornecedorEntity> {
         const contato = await this.contatoRepository.save(input.contato);
         const endereco = await this.enderecoRepository.save(input.endereco);
+        const saved = await this.fornecedorRepository.save(FornecedorEntity.of(input, contato, endereco));
 
-        return this.fornecedorRepository.save(FornecedorEntity.of(input, contato, endereco));
+        return this.fornecedorRepository.find(saved.id) as Promise<FornecedorEntity>;
     }
 
     async list(): Promise<FornecedorEntity[]> {
@@ -45,6 +46,7 @@ export class FornecedorService {
 
             contato.update(input.contato);
             await this.contatoRepository.save(contato);
+            fornecedor.contato = contato;
         }
 
         if (input.endereco) {
@@ -53,11 +55,12 @@ export class FornecedorService {
 
             endereco.update(input.endereco);
             await this.enderecoRepository.save(endereco);
+            fornecedor.endereco = endereco;
         }
 
         fornecedor.update(input);
         await this.fornecedorRepository.update(fornecedor, Number(id));
-        
+
         return fornecedor;
     }
 }

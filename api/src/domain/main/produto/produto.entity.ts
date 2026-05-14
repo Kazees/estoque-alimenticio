@@ -78,7 +78,7 @@ export class ProdutoEntity {
     update(input: UpdateProdutoInput) {
         if (input.name) this.name = input.name;
         if (input.descricao) this.descricao = input.descricao;
-        if (input.perecivel) this.perecivel = input.perecivel;
+        if (input.perecivel !== undefined) this.perecivel = input.perecivel;
         if (input.categoria) this.categoria = input.categoria;
         if (input.unidadeMedida) this.unidadeMedida = input.unidadeMedida;
 
