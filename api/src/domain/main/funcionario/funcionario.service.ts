@@ -25,6 +25,7 @@ export class FuncionarioService {
 
             contato.update(input.contato);
             await this.contatoRepository.save(contato);
+            funcionario.contato = contato;
         }
 
         if (input.endereco) {
@@ -33,11 +34,12 @@ export class FuncionarioService {
 
             endereco.update(input.endereco);
             await this.enderecoRepository.save(endereco);
+            funcionario.endereco = endereco;
         }
 
         funcionario.update(input);
         await this.funcionarioRepository.update(funcionario, Number(id));
-        
+
         return funcionario;
     }
 }

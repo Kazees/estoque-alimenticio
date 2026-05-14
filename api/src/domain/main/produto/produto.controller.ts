@@ -18,11 +18,11 @@ export class ProdutoController {
     ) {}
 
     @Post()
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Criar um produto',
         description: 'Criar um produto'
     })
-    @ApiBody({ type: ProdutoInput, description: 'Informações do produto' })
+    @ApiBody({ type: ProdutoInput, description: 'Informacoes do produto' })
     @ApiResponse({ status: 201, description: 'Produto criado com sucesso' })
     @ApiResponse({ status: 404, description: 'Erro ao criar o produto' })
     async save(@Body() input: ProdutoInput, @Req() request: AuthRequest): Promise<ProdutoOutput> {
@@ -32,11 +32,11 @@ export class ProdutoController {
 
     @Patch('/:id')
     @UseGuards(AuthAdminGuard)
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Atualizar um produto',
         description: 'Atualizar um produto'
     })
-    @ApiBody({ type: UpdateProdutoInput, description: 'Informações do produto' })
+    @ApiBody({ type: UpdateProdutoInput, description: 'Informacoes do produto' })
     @ApiResponse({ status: 200, description: 'Produto atualizado com sucesso', type: ProdutoOutput })
     @ApiResponse({ status: 404, description: 'Erro ao atualizar o produto' })
     async update(@Body() input: UpdateProdutoInput, @Param('id') id: number): Promise<ProdutoOutput> {
@@ -46,7 +46,7 @@ export class ProdutoController {
 
     @Delete('/:id')
     @UseGuards(AuthAdminGuard)
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Deletar um produto',
         description: 'Deletar um produto'
     })
@@ -57,11 +57,14 @@ export class ProdutoController {
     }
 
     @Get()
-    @ApiOperation({ 
+    @ApiOperation({
         summary: 'Listar todos os produtos',
         description: 'Listar todos os produtos'
     })
-    @ApiQuery({ type: ProdutoFilter, name: 'filter', required: false })
+    @ApiQuery({ name: 'name', type: String, required: false })
+    @ApiQuery({ name: 'active', type: Boolean, required: false })
+    @ApiQuery({ name: 'precoMin', type: Number, required: false })
+    @ApiQuery({ name: 'precoMax', type: Number, required: false })
     @ApiResponse({ status: 200, description: 'Produtos listados com sucesso', type: [ProdutoOutput] })
     @ApiResponse({ status: 404, description: 'Erro ao listar os produtos' })
     async list(@Query() filter?: ProdutoFilter): Promise<ProdutoOutput[]> {

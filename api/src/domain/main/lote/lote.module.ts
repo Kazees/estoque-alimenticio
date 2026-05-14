@@ -9,12 +9,13 @@ import { LoteService } from "@app/domain/main/lote/lote.service";
 import { LoteRepository } from "@app/domain/main/lote/lote.repository";
 import { FornecedorRepository } from "@app/domain/main/fornecedor/fornecedor.repository";
 import { LocalizacaoRepository } from "@app/domain/main/localizacao/localizacao.repository";
+import { LocalizacaoController } from "@app/domain/main/localizacao/localizacao.controller";
 import { ProdutoLoteRepository } from "@app/domain/main/produto/produtoLote.repository";
 
 @Module({
     imports: [TypeOrmModule.forFeature([LoteEntity, FornecedorEntity, LocalizacaoEntity, ProdutoLoteEntity])],
-    controllers: [LoteController],
-    providers: [LoteController, LoteService, LoteRepository, FornecedorRepository, LocalizacaoRepository, ProdutoLoteRepository],
-    exports: [LoteService, LoteRepository, FornecedorRepository, LocalizacaoRepository, ProdutoLoteRepository ]
+    controllers: [LoteController, LocalizacaoController],
+    providers: [LoteService, LoteRepository, FornecedorRepository, LocalizacaoRepository, LocalizacaoController, ProdutoLoteRepository],
+    exports: [LoteService, LoteRepository, FornecedorRepository, LocalizacaoRepository, ProdutoLoteRepository]
 })
 export class LoteModule {}

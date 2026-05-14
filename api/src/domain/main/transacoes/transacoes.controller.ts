@@ -6,6 +6,7 @@ import { TransacoesInput } from "@app/domain/main/transacoes/transacoes.input";
 import { AuthRequest } from "@app/domain/auth/auth.request";
 import { TransacoesService } from "@app/domain/main/transacoes/transacoes.service";
 import { TransacoesFilter } from "@app/domain/main/transacoes/transacoes.filter";
+import { TransacaoEnum } from "@app/domain/shared/enums/transacao.enum";
 
 @ApiBearerAuth()
 @ApiTags('Transacoes')
@@ -17,26 +18,31 @@ export class TransacoesController {
     ) {}
 
     @Post()
-    @ApiOperation({ 
-        summary: 'Salvar transação',
-        description: 'Salvar transação'
+    @ApiOperation({
+        summary: 'Salvar transacao',
+        description: 'Salvar transacao'
     })
-    @ApiBody({ type: TransacoesInput, description: 'Informações da transação' })
-    @ApiResponse({ status: 200, description: 'Transação criada com sucesso', type: TransacoesOutput })
-    @ApiResponse({ status: 400, description: 'Erro ao criar transação' })
+    @ApiBody({ type: TransacoesInput, description: 'Informacoes da transacao' })
+    @ApiResponse({ status: 200, description: 'Transacao criada com sucesso', type: TransacoesOutput })
+    @ApiResponse({ status: 400, description: 'Erro ao criar transacao' })
     async save(@Body() input: TransacoesInput, @Req() request: AuthRequest): Promise<TransacoesOutput> {
         const transacao = await this.transacoesService.save(input, Number(request.auth.sub));
         return new TransacoesOutput(transacao);
     }
 
     @Get()
-    @ApiOperation({ 
-        summary: 'Listar transações',
-        description: 'Listar transações'
+    @ApiOperation({
+        summary: 'Listar transacoes',
+        description: 'Listar transacoes'
     })
-    @ApiQuery({ type: TransacoesFilter, description: 'Filtros para listar transações', required: false })
-    @ApiResponse({ status: 200, description: 'Transações listadas com sucesso', type: [TransacoesOutput] })
-    @ApiResponse({ status: 400, description: 'Erro ao listar transações' })
+    @ApiQuery({ name: 'produtoId', type: Number, required: false })
+    @ApiQuery({ name: 'quantidade', type: Number, required: false })
+    @ApiQuery({ name: 'tipo', enum: TransacaoEnum, required: false })
+    @ApiQuery({ name: 'funcionarioId', type: Number, required: false })
+    @ApiQuery({ name: 'dataInicio', type: String, required: false })
+    @ApiQuery({ name: 'dataFim', type: String, required: false })
+    @ApiResponse({ status: 200, description: 'Transacoes listadas com sucesso', type: [TransacoesOutput] })
+    @ApiResponse({ status: 400, description: 'Erro ao listar transacoes' })
     async list(@Query() filter?: TransacoesFilter): Promise<TransacoesOutput[]> {
         const transacoes = await this.transacoesService.list(filter);
         return transacoes.map(transacao => new TransacoesOutput(transacao));

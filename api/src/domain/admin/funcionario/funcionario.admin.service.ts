@@ -1,7 +1,7 @@
 import { CryptoService } from "@app/domain/auth/crypto.service";
 import { FuncionarioEntity } from "@app/domain/main/funcionario/funcionario.entity";
 import { FuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ForbiddenException, Injectable, NotFoundException } from "@nestjs/common";
 import { FuncionarioAdminRepository } from "@app/domain/admin/funcionario/funcionario.admin.repository";
 import { ContatoRepository } from "@app/domain/main/contato/contato.repository";
 import { EnderecoRepository } from "@app/domain/main/endereco/endereco.repository";
@@ -33,9 +33,9 @@ export class FuncionarioAdminService {
     async delete(id: number): Promise<void> {
         const funcionario: FuncionarioEntity | null = await this.funcionarioRepository.find(id);
 
-        if (funcionario?.role === AuthRoles.ADMIN) throw new NotFoundException('Funcionario nao pode ser excluido');
         if (!funcionario) throw new NotFoundException('Funcionario nao encontrado');
-        
+        if (funcionario.role === AuthRoles.ADMIN) throw new ForbiddenException('Funcionario nao pode ser excluido');
+
         funcionario.inactive();
         await this.funcionarioAdminRepository.save(funcionario);
     }

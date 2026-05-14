@@ -1,7 +1,7 @@
 import { AuthRoles } from "@app/domain/auth/auth.roles";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
-import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique } from "typeorm";
+import { Column, CreateDateColumn, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn, Unique, UpdateDateColumn } from "typeorm";
 import { FuncionarioInput, UpdateFuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
 
 @Entity({ name: 'Funcionario' })
@@ -34,7 +34,7 @@ export class FuncionarioEntity {
     @CreateDateColumn({ name: 'createdAt'})
     createdAt: Date;
 
-    @CreateDateColumn({ name: 'updatedAt'})
+    @UpdateDateColumn({ name: 'updatedAt'})
     updatedAt: Date;
 
     @ManyToOne(() => ContatoEntity, (contato) => contato.id)

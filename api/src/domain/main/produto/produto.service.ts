@@ -28,17 +28,17 @@ export class ProdutoService {
         if (!produto) throw new NotFoundException('Produto nao encontrado');
 
         if (input.informacoesNutricionais) {
-            const informacoesNutricionais: InformacoesNutricionaisEntity | null = await this.informacoesNutricionaisRepository.find(produto.informacoesNutricionaisId!);            
+            const informacoesNutricionais: InformacoesNutricionaisEntity | null = await this.informacoesNutricionaisRepository.find(produto.informacoesNutricionaisId!);
             if (!informacoesNutricionais) throw new NotFoundException('Informacoes Nutricionais nao encontradas');
 
             informacoesNutricionais.update(input.informacoesNutricionais);
             await this.informacoesNutricionaisRepository.save(informacoesNutricionais);
         }
-        
+
         produto.update(input);
         await this.produtoRepository.update(produto, id);
 
-        return produto;
+        return this.produtoRepository.save(produto);
     }
 
     async delete(id: number): Promise<void> {
