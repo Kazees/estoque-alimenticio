@@ -9,7 +9,7 @@ export class TransacoesEntity {
     @PrimaryGeneratedColumn('increment')
     id: number;
 
-    @Column({ name: 'tipo', nullable: false, enum: TransacaoEnum, default: TransacaoEnum.ENTRADA })
+    @Column({ name: 'tipo', type: 'enum', enum: TransacaoEnum, nullable: false, default: TransacaoEnum.ENTRADA })
     tipo: TransacaoEnum;
 
     @Column({ name: 'observacao', nullable: true })
@@ -30,11 +30,11 @@ export class TransacoesEntity {
 
     static of(input: TransacoesInput, funcionarioId: number): TransacoesEntity {
         const transacao = new TransacoesEntity();
-    
+
         transacao.tipo = input.tipo;
         transacao.observacao = input.observacao;
         transacao.funcionarioId = funcionarioId;
-    
+
         return transacao;
     }
 }
