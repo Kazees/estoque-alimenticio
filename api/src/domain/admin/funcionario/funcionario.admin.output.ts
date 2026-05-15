@@ -6,6 +6,9 @@ import { ApiProperty } from "@nestjs/swagger";
 
 export class FuncionarioOutput {
     @ApiProperty()
+    id: number;
+
+    @ApiProperty()
     name: string;
 
     @ApiProperty()
@@ -18,17 +21,18 @@ export class FuncionarioOutput {
     active: boolean;
 
     @ApiProperty()
-    contato: ContatoEntity 
+    contato: ContatoEntity
 
     @ApiProperty()
     endereco: EnderecoEntity
 
     constructor(funcionario: FuncionarioEntity) {
+        this.id = funcionario.id;
         this.name = funcionario.name;
         this.email = funcionario.email;
         this.role = funcionario.role;
         this.active = funcionario.active;
         this.contato = funcionario.contato;
-        this.endereco =  funcionario.endereco;
+        this.endereco = funcionario.endereco;
     }
 }

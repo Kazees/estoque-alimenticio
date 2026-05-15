@@ -12,7 +12,11 @@ export class FuncionarioAdminRepository {
     ) {}
 
     async save(funcionario: FuncionarioInput): Promise<FuncionarioEntity> {
-        return this.repository.save(funcionario);
+        const saved = await this.repository.save(funcionario);
+        return this.repository.findOne({
+            where: { id: saved.id },
+            relations: ['contato', 'endereco'],
+        }) as Promise<FuncionarioEntity>;
     }
 
     async findByEmail(email: string): Promise<FuncionarioEntity | null> {
@@ -24,6 +28,7 @@ export class FuncionarioAdminRepository {
             where: {
                 active: true
             },
+            relations: ['contato', 'endereco'],
             order: {name: 'asc'}
         });
     }

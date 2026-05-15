@@ -22,4 +22,13 @@ export class ProdutoLoteRepository {
             quantidade 
         }); 
     }
+
+    async find (produtoId: number, loteId: number): Promise<ProdutoLoteEntity | null> {
+        return this.repository.findOne({ 
+            where: { 
+                produtoId, 
+                loteId 
+            } 
+        }); 
+    }
 }

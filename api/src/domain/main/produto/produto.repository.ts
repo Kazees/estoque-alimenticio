@@ -16,7 +16,7 @@ export class ProdutoRepository {
         const saved = await this.repository.save(produto);
         return this.repository.findOne({
             where: { id: saved.id },
-            relations: ['cadastrado_funcionario'],
+            relations: ['cadastrado_funcionario', 'informacoesNutricionais'],
         }) as Promise<ProdutoEntity>;
     }
 
