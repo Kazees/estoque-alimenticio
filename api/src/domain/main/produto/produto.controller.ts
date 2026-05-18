@@ -65,6 +65,8 @@ export class ProdutoController {
     @ApiQuery({ name: 'active', type: Boolean, required: false })
     @ApiQuery({ name: 'precoMin', type: Number, required: false })
     @ApiQuery({ name: 'precoMax', type: Number, required: false })
+    @ApiQuery({ name: 'page', type: Number, required: false })
+    @ApiQuery({ name: 'size', type: Number, required: false })
     @ApiResponse({ status: 200, description: 'Produtos listados com sucesso', type: [ProdutoOutput] })
     @ApiResponse({ status: 404, description: 'Erro ao listar os produtos' })
     async list(@Query() filter?: ProdutoFilter): Promise<ProdutoOutput[]> {

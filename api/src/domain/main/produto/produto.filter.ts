@@ -1,8 +1,9 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
 import { IsBoolean, IsNumber, IsOptional } from "class-validator";
 import { Transform, Type } from "class-transformer";
+import { PageFilter } from "@app/domain/shared/filter/page.filter";
 
-export class ProdutoFilter {
+export class ProdutoFilter extends PageFilter {
     @ApiPropertyOptional({ example: '' })
     @IsOptional()
     name?: string;
@@ -30,6 +31,7 @@ export class ProdutoFilter {
     precoMax?: number;
 
     constructor(name?: string, active?: boolean, precoMin?: number, precoMax?: number) {
+        super();
         this.name = name;
         this.active = active;
         this.precoMin = precoMin;

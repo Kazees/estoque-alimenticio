@@ -7,6 +7,7 @@ import { ContatoRepository } from "@app/domain/main/contato/contato.repository";
 import { EnderecoRepository } from "@app/domain/main/endereco/endereco.repository";
 import { FuncionarioRepository } from "@app/domain/main/funcionario/funcionario.repository";
 import { AuthRoles } from "@app/domain/auth/auth.roles";
+import { FuncionarioAdminFilter } from "@app/domain/admin/funcionario/funcionario.admin.filter";
 
 @Injectable()
 export class FuncionarioAdminService {
@@ -26,8 +27,8 @@ export class FuncionarioAdminService {
         return this.funcionarioAdminRepository.save(FuncionarioEntity.of({ ...input, password }, contato, endereco));
     }
 
-    async list(): Promise<FuncionarioEntity[]> {
-        return this.funcionarioAdminRepository.list();
+    async list(filter?: FuncionarioAdminFilter): Promise<FuncionarioEntity[]> {
+        return this.funcionarioAdminRepository.list(filter);
     }
 
     async delete(id: number): Promise<void> {

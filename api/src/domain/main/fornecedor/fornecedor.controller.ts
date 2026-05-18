@@ -1,10 +1,11 @@
-import { Body, Controller, Delete, Get, Param, Patch, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FornecedorInput, UpdateFornecedorInput } from "@app/domain/main/fornecedor/fornecedor.input";
 import { FornecedorOutput } from "@app/domain/main/fornecedor/fornecedor.output";
 import { FornecedorService } from "@app/domain/main/fornecedor/fornecedor.service";
 import { AuthGuard } from "@app/domain/auth/auth.guard";
 import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
+import { FornecedorFilter } from "@app/domain/main/fornecedor/fornecedor.filter";
 
 @ApiBearerAuth()
 @ApiTags('Fornecedor')
@@ -35,8 +36,8 @@ export class FornecedorController {
     })
     @ApiResponse({ status: 200, description: 'Fornecedores encontrados', type: [FornecedorOutput] })
     @ApiResponse({ status: 401, description: 'Funcionario sem permissão' })
-    async list(): Promise<FornecedorOutput[]> {
-        const entities = await this.fornecedorService.list();
+    async list(@Query() filter?: FornecedorFilter): Promise<FornecedorOutput[]> {
+        const entities = await this.fornecedorService.list(filter);
         return entities.map(entity => new FornecedorOutput(entity));
     }
 

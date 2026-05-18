@@ -1,5 +1,5 @@
 import { Column, Entity, PrimaryGeneratedColumn, Unique } from "typeorm";
-import { ContatoInput } from "@app/domain/main/contato/contato.input";
+import { ContatoInput, UpdateContatoInput } from "@app/domain/main/contato/contato.input";
 
 @Entity({ name: 'Contato' })
 @Unique(['codigo_pais', 'ddd', 'numero'])
@@ -16,7 +16,7 @@ export class ContatoEntity {
     @Column({ name: 'numero', nullable: false, unique: true })
     numero: string;
 
-    static of(input: ContatoInput) {
+    static of(input: ContatoInput): ContatoEntity {
         const contato = new ContatoEntity();
 
         contato.codigo_pais = input.codigo_pais;
@@ -26,7 +26,7 @@ export class ContatoEntity {
         return contato;
     }
 
-    update(input: ContatoInput) {
+    update(input: UpdateContatoInput) {
         if (input.codigo_pais) this.codigo_pais = input.codigo_pais;
         if (input.ddd) this.ddd = input.ddd;
         if (input.numero) this.numero = input.numero;

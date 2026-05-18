@@ -34,6 +34,8 @@ export class ProdutoRepository {
         if (filter?.precoMin) db.andWhere('lote.preco_venda >= :precoMin', { precoMin: filter.precoMin });
         if (filter?.precoMax) db.andWhere('lote.preco_venda <= :precoMax', { precoMax: filter.precoMax });
 
+        db.skip(((filter?.page || 1) - 1) * (filter?.size || 10)).take(filter?.size || 10);
+
         return db.getMany();
     }
 
