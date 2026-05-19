@@ -9,64 +9,75 @@ const router = createRouter({
     // Rota aberta
     {
       path: '/',
-      redirect: '/produto' // redireciona para /produto
+      component: () => import('@/layouts/AppLayout.vue'),
+      meta: { requiresAuth: true }, // redireciona para /login se não estiver logado
+      children: [
+        // Rota protegida - Apenas admin
+        {
+          path: '/admin/funcionarios',
+          name: 'admin-funcionarios',
+          component: () => import('@/views/admin/AdminFuncionariosView.vue'),
+          meta: { 
+            requiresAuth: true, // Precisa estar logado para acessar
+            requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
+          } 
+        },
+        {
+          path: '/admin/produtos',
+          name: 'admin-produtos',
+          component: () => import('@/views/admin/AdminProdutosView.vue'),
+          meta: {
+            requiresAuth: true, // Precisa estar logado para acessar
+            requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
+          }
+        },
+        // Rota protegida - Qualquer user ou admin (Funcionário)
+        {
+          path: '/produto',
+          name: 'produto',
+          component: () => import('@/views/produto/ProdutoView.vue'),
+          meta: { requiresAuth: true } // Precisa estar logado para acessar
+        },
+        {
+          path: '/lote',
+          name: 'lote',
+          component: () => import('@/views/lote/LoteView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/fornecedor',
+          name: 'fornecedor',
+          component: () => import('@/views/fornecedor/FornecedorView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/transacao',
+          name: 'transacao',
+          component: () => import('@/views/transacao/TransacaoView.vue'),
+          meta: { requiresAuth: true }
+        },
+        {
+          path: '/perfil',
+          name: 'perfil',
+          component: () => import('@/views/funcionario/PerfilView.vue'),
+          meta: { requiresAuth: true }
+        },
+      ]
     },
     // Rota login
     {
       path: '/login',
       name: 'login',
-      component: () => import('@/views/LoginView.vue'),
-      meta: { guestOnly: true } // redireciona para /dashboard se já estiver logado
+      component: () => import('@/views/login/LoginView.vue'),
+      meta: { guestOnly: true } // redireciona para /produto se já estiver logado
     },
-    // Rota protegida - Apenas admin
+
+    // Rota 404 - Página não encontrada
+    // :pathMatch é um recurso do Vue Router para capturar todas as rotas que não correspondem a nenhuma das anteriores
     {
-      path: '/admin/funcionarios',
-      name: 'admin-funcionarios',
-      component: () => import('@/views/AdminFuncionariosView.vue'),
-      meta: { 
-        requiresAuth: true, // Precisa estar logado para acessar
-        requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
-      } 
-    },
-    {
-      path: '/admin/produtos',
-      name: 'admin-produtos',
-      component: () => import('@/views/AdminProdutosView.vue'),
-      meta: {
-        requiresAuth: true, // Precisa estar logado para acessar
-        requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
-      }
-    },
-    // Rota protegida - Qualquer user ou admin (Funcionário)
-    {
-      path: '/produto',
-      name: 'produto',
-      component: () => import('@/views/ProdutoView.vue'),
-      meta: { requiresAuth: true } // Precisa estar logado para acessar
-    },
-    {
-      path: '/lote',
-      name: 'lote',
-      component: () => import('@/views/LoteView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/fornecedor',
-      name: 'fornecedor',
-      component: () => import('@/views/FornecedorView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/transacao',
-      name: 'transacao',
-      component: () => import('@/views/TransacaoView.vue'),
-      meta: { requiresAuth: true }
-    },
-    {
-      path: '/perfil',
-      name: 'perfil',
-      component: () => import('@/views/PerfilView.vue'),
-      meta: { requiresAuth: true }
+      path: '/:pathMatch(.*)*',
+      name: 'not-found',
+      component: () => import('@/views/erros/NotFoundView.vue')
     }
   ],
 
@@ -100,7 +111,7 @@ router.beforeEach((to, from, next) => {
   if (to.meta.requiredRole && token) {
     const payload = jwtDecode<AuthPayload>(token)
     if (payload.role !== to.meta.requiredRole) {
-      next('/produto') 
+      next('/not-found') 
       return
     }
   }

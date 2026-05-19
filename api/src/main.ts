@@ -15,9 +15,9 @@ async function bootstrap() {
   );
 
   app.enableCors({
-    origin: 'http://localhost:3000', // Onde será apenas o Vue
+    origin: ['http://localhost:3000', 'http://localhost:3001'],
     methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH'],
-    credentials: false, // Se for true, permite o envio de cookies para o front-end
+    credentials: false,
   });
 
   const swagger = new DocumentBuilder()

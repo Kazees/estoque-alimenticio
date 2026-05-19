@@ -34,11 +34,12 @@ export const useAuthStore = defineStore("auth", {
                 localStorage.setItem("token", data.token);
                 BaseService.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 
-                if(this.user?.role === RolesEnum.ADMIN) await router.push('/admin');
-                if(this.user?.role !== RolesEnum.ADMIN) await router.push('/dashboard');
+                if(this.user?.role === RolesEnum.ADMIN) await router.push('/admin/funcionarios');
+                if(this.user?.role !== RolesEnum.ADMIN) await router.push('/produto');
             }
             catch (error) {
                 console.error("Erro ao fazer login:", error);
+                throw error;
             }
             finally {
                 this.loading = false;
