@@ -1,10 +1,11 @@
-import { Injectable, NotFoundException } from "@nestjs/common";
+import { ConflictException, Injectable, NotFoundException } from "@nestjs/common";
 import { InformacoesNutricionaisRepository } from "@app/domain/main/informacoes_nutricionais/informacoesNutricionais.repository";
 import { ProdutoInput, UpdateProdutoInput } from "@app/domain/main/produto/produto.input";
 import { ProdutoEntity } from "@app/domain/main/produto/produto.entity";
 import { InformacoesNutricionaisEntity } from "@app/domain/main/informacoes_nutricionais/informacoesNutricionais.entity";
 import { ProdutoFilter } from "@app/domain/main/produto/produto.filter";
 import { ProdutoRepository } from "@app/domain/main/produto/produto.repository";
+import { QueryFailedError } from "typeorm";
 
 @Injectable()
 export class ProdutoService {
@@ -16,7 +17,13 @@ export class ProdutoService {
     async save (input: ProdutoInput, funcionarioId: number): Promise<ProdutoEntity> {
         const informacoesNutricionais = input.informacoesNutricionais ? await this.informacoesNutricionaisRepository.save(InformacoesNutricionaisEntity.of(input.informacoesNutricionais)) : null;
 
-        return this.produtoRepository.save(ProdutoEntity.of(input, funcionarioId, informacoesNutricionais?.id));
+        try {
+            return await this.produtoRepository.save(ProdutoEntity.of(input, funcionarioId, informacoesNutricionais?.id));
+        } catch (error) {
+            if (error instanceof QueryFailedError && (error as any).code === '23505')
+                throw new ConflictException(`Já existe um produto com o código "${input.codigo}"`);
+            throw error;
+        }
     }
 
     async list(filter?: ProdutoFilter): Promise<ProdutoEntity[]> {

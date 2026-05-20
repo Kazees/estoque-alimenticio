@@ -16,19 +16,19 @@ export default {
     data() {
         return {
             visible: false,
-            current: { text: '', color: 'info', timeout: 3000 },
+            current: { text: '', color: 'info', timeout: 2000 },
             queue: [],
         };
     },
     methods: {
-        sucess(message) {
-            this._enqueue({ text: message, color: 'success', timeout: 3000 });
+        success(message) {
+            this._enqueue({ text: message, color: 'success', timeout: 2000 });
         },
         error(message) {
-            this._enqueue({ text: message, color: 'error', timeout: 3000 });
+            this._enqueue({ text: message, color: 'error', timeout: 2000 });
         },
         info(message) {
-            this._enqueue({ text: message, color: 'info', timeout: 3000 });
+            this._enqueue({ text: message, color: 'info', timeout: 2000 });
         },
         _enqueue(msg) {
             this.queue.push(msg);

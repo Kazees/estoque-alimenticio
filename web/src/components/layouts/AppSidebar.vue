@@ -4,8 +4,6 @@
         <v-list-item prepend-icon="mdi-package-variant" title="Lotes" to="/lote" />
         <v-list-item prepend-icon="mdi-cup-water" title="Fornecedores" to="/fornecedor" />
         <v-list-item prepend-icon="mdi-swap-horizontal" title="Transações" to="/transacao" />
-        <v-list-item prepend-icon="mdi-account" title="Perfil" to="/perfil" />
-
         
         <template v-if="authStore.isAdmin">
             <v-divider class="my-2"/>

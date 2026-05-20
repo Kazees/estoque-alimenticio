@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <AppNavbar @toggle-drawer="isDrawerOpen = !isDrawerOpen" />
-        <v-navigation-drawer v-model="isDrawerOpen" temporary app>
+        <v-navigation-drawer v-model="isDrawerOpen" app>
             <AppSidebar />
         </v-navigation-drawer>
     

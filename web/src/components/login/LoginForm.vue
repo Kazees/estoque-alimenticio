@@ -32,15 +32,12 @@ export default {
             email: '',
             password: '',
             valid: false,
+            authStore: useAuthStore(),
+            router: useRouter()
         };
     },
     components: {
         ToastComponent
-    },
-    setup() {
-        const authStore = useAuthStore();
-        const router = useRouter();
-        return { authStore, router };
     },
     methods: {
         async login() {

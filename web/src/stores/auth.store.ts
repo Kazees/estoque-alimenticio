@@ -8,19 +8,26 @@ import { jwtDecode } from 'jwt-decode';
 import type { AuthPayload } from "@/scripts/models/auth";
 
 export const useAuthStore = defineStore("auth", {
-    state: () => ({
-        token: localStorage.getItem("token") || null,
-        user: undefined as FuncionarioModel | undefined,
-        loading: false
-    }),
+    state: () => {
+        const token = localStorage.getItem("token") || null
+        const payload = token ? jwtDecode<AuthPayload>(token) : null
+        return {
+            token,
+            user: payload ? {
+                id: Number(payload.sub),
+                name: payload.name,
+                email: payload.email,
+                role: payload.role
+            } as FuncionarioModel : undefined,
+            loading: false
+        }
+    },
     getters: {
         isAuthenticated(): boolean {
             return !!this.token;
         },
         isAdmin(): boolean {
-            const token = localStorage.getItem("token");
-            if (!token) return false;
-            return jwtDecode<AuthPayload>(token).role === RolesEnum.ADMIN;
+            return this.user?.role === RolesEnum.ADMIN;
         }
     },
     actions: {
@@ -30,12 +37,19 @@ export const useAuthStore = defineStore("auth", {
             try {
                 const data = await AuthService.login(email, password);
                 this.token = data.token;
-                this.user = data.user;
                 localStorage.setItem("token", data.token);
                 BaseService.defaults.headers.common['Authorization'] = `Bearer ${this.token}`;
 
+                const payload = jwtDecode<AuthPayload>(data.token);
+                this.user = {
+                    id: Number(payload.sub),
+                    name: payload.name,
+                    email: payload.email,
+                    role: payload.role
+                } as FuncionarioModel;
+
                 if(this.user?.role === RolesEnum.ADMIN) await router.push('/admin/funcionarios');
-                if(this.user?.role !== RolesEnum.ADMIN) await router.push('/produto');
+                else await router.push('/produto');
             }
             catch (error) {
                 console.error("Erro ao fazer login:", error);
