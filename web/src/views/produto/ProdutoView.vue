@@ -1,15 +1,23 @@
 <template>
-    <v-container>
+    <v-container fluid>
         <ToastComponent ref="toast" />
-        <ProdutoFilter @filter="handleFilter" />
-        <v-btn color="primary" class="mb-4" @click="openCreate">Novo Produto</v-btn>
-        <ProdutoList :produtos="produtos" @edit="openEdit" @delete="openDelete" />
-        <v-dialog v-model="dialog" max-width="800px" scolla>
+
+        <div class="d-flex justify-space-between align-center mb-4">
+            <span class="text-h5 font-weight-bold">Produtos</span>
+            <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Novo Produto</v-btn>
+        </div>
+
+        <ProdutoFilter />
+        <ProdutoList :produtos="useProdutoStore.produtos" @edit="openEdit" @delete="openDelete" />
+        <ConfirmComponent ref="confirmDialog" @confirm="confirmDelete" @cancel="cancelDelete"/>
+
+        <v-dialog v-model="dialog" max-width="800px" scrollable>
             <v-card>
-                <v-card-title class="d-flex justify-space-between align-center">
+                <v-card-title class="d-flex justify-space-between align-center pa-4">
                     {{ selectProduto ? 'Editar Produto' : 'Criar Produto' }}
-                    <v-icon icon="mdi-close" class="ma-2" @click="dialog = false" style="cursor: pointer" />
+                    <v-icon icon="mdi-close" @click="dialog = false" style="cursor: pointer" />
                 </v-card-title>
+                <v-divider />
                 <v-card-text>
                     <ProdutoForm @submit="handleCreate" :produto="selectProduto" :loading="loading" />
                 </v-card-text>
@@ -24,6 +32,8 @@ import ToastComponent from '@/components/feedback/ToastComponent.vue';
 import ProdutoList from '@/components/produto/ProdutoList.vue';
 import ProdutoFilter from '@/components/produto/ProdutoFilter.vue';
 import { ProdutoService } from '@/scripts/services/ProdutoService';
+import { useProdutoStore } from '@/stores/produto.store';
+import ConfirmComponent from '@/components/feedback/ConfirmComponent.vue';
 
 export default {
     name: 'ProdutoView',
@@ -31,15 +41,20 @@ export default {
         ProdutoForm,
         ToastComponent,
         ProdutoList,
-        ProdutoFilter
+        ProdutoFilter,
+        ConfirmComponent,
     },
     data() {
         return {
             dialog: false,
             loading: false,
             selectProduto: null, // null = criar, objeto = editar
-            produtos: []
+            produtos: [],
+            useProdutoStore: useProdutoStore()
         };
+    },
+    async created() {
+        await this.useProdutoStore.list();
     },
     methods: {
         openCreate() {
@@ -50,15 +65,22 @@ export default {
             this.selectProduto = produto;
             this.dialog = true;
         },
-        openDelete(produto) {
-            // implementar lógica de exclusão
-        },
         async loadProdutos() {
             try {
-                this.produtos = await ProdutoService.list();
+                await this.useProdutoStore.list();
             }
             catch (error) {
                 const msg = error?.response?.data?.message || error?.message || 'Erro ao carregar produtos';
+                this.$refs.toast.error(msg);
+            }
+        },
+        async openDelete(produto) {
+            try {
+                await ProdutoService.delete(produto.id);
+                await this.loadProdutos();
+                this.$refs.toast.success('Produto excluído com sucesso');
+            } catch (error) {
+                const msg = error?.response?.data?.message || error?.message || 'Erro ao excluir produto';
                 this.$refs.toast.error(msg);
             }
         },
@@ -85,7 +107,23 @@ export default {
             finally {
                 this.loading = false;
             }
-        }
+        },
+        openDelete(produto) {
+            this.selectProduto = produto;
+            this.$refs.confirmDialog.open('Excluir produto', `Tem certeza que deseja excluir o produto: ${produto.name}?`);
+        },
+        async confirmDelete() {
+            try {
+                await ProdutoService.delete(this.selectProduto.id);
+                await this.loadProdutos();
+                this.$refs.toast.success('Produto excluído com sucesso');
+                this.$refs.confirmDialog.close();
+            } catch (error) {
+                const msg = error?.response?.data?.message || error?.message || 'Erro ao excluir produto';
+                this.$refs.toast.error(msg);
+            }
+        },
+
     }
 }
 </script>

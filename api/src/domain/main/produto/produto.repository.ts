@@ -29,12 +29,14 @@ export class ProdutoRepository {
             .orderBy('lote.data_validade', 'ASC')
             .addOrderBy('produto_lote.quantidade', 'ASC');
 
-        if (filter?.name) db.andWhere('produto.name LIKE :name', { name: `%${filter.name}%` });
-        if (filter?.active !== undefined) db.andWhere('produto.active = :active', { active: filter.active });
+        if (filter?.name) db.andWhere('produto.name ILIKE :name', { name: `%${filter.name}%` });
+        db.andWhere('produto.active = :active', { active: filter?.active ?? true });
         if (filter?.precoMin) db.andWhere('lote.preco_venda >= :precoMin', { precoMin: filter.precoMin });
         if (filter?.precoMax) db.andWhere('lote.preco_venda <= :precoMax', { precoMax: filter.precoMax });
 
-        db.skip(((filter?.page || 1) - 1) * (filter?.size || 10)).take(filter?.size || 10);
+        db
+        .skip(((filter?.page || 1) - 1) * (filter?.size || 10))
+        .take(filter?.size || 10);
 
         return db.getMany();
     }

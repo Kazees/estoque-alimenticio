@@ -20,9 +20,10 @@ import { useAuthStore } from '@/stores/auth.store';
 
 export default {
     name: 'AppSidebar',
-    setup() {
-        const authStore = useAuthStore();
-        return { authStore };
-    }
+    data() {
+        return {
+            authStore: useAuthStore()
+        };
+    },
 }
 </script>

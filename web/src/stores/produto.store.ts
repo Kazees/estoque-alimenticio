@@ -3,18 +3,14 @@ import { ProdutoService } from "@/scripts/services/ProdutoService";
 import { defineStore } from "pinia";
 
 export const useProdutoStore = defineStore("produto", {
-    state: () => ({
-        loading: false,
-        produtos: [] as ProdutoOutput[],
-        filter: {
-            name: undefined as string | undefined,
-            active: undefined as boolean | undefined,
-            precoMin: undefined as number | undefined,
-            precoMax: undefined as number | undefined,
-            page: 1,
-            size: 10
+    state: () => {
+        const savedFilter = localStorage.getItem('produtoFilter')
+        return {
+            produtos: [] as ProdutoOutput[],
+            loading: false,
+            filter: savedFilter ? JSON.parse(savedFilter) : { page: 1, size: 10 } as ProdutoFilter
         }
-    }),
+    },
     getters: {
         produtosAtivos(): ProdutoOutput[] {
             return this.produtos.filter(produto => produto.active);
@@ -35,6 +31,7 @@ export const useProdutoStore = defineStore("produto", {
         },
         setFilter(filter: ProdutoFilter): void {
             this.filter = { ...this.filter, ...filter };
+            localStorage.setItem("produtoFilter", JSON.stringify(this.filter));
             this.list();
         }
     }

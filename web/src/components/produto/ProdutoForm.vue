@@ -34,7 +34,7 @@
             </v-row>
         </v-container>
         <v-card-actions class="justify-center">
-            <v-btn color="primary" @click="handleSubmit">Salvar</v-btn>
+            <v-btn color="primary" variant="elevated" @click="handleSubmit">Salvar</v-btn>
         </v-card-actions>
     </v-form>
 </template>
@@ -86,9 +86,12 @@ export default {
         };
     },
     watch: {
-        produto (val) {
-            if (val) this.form = {...val}; // se tiver valor (obj) popular os campos do produto para editar
-            else this.resetForm(); // se for null (criar) resetar o formulário
+        produto: {
+            immediate: true,
+            handler(val) {
+                if (val) this.form = {...val}; // se tiver valor (obj) popular os campos do produto para editar
+                else this.resetForm(); // se for null (criar) resetar o formulário
+            }
         }
     },
     methods: {
@@ -114,7 +117,7 @@ export default {
             }
 
             const data = {...this.form};
-            if (!data.informacoesNutricionais.ingredientes && !data.informacoesNutricionais.alergenicos) data.informacoesNutricionais = null;
+            if (!data.informacoesNutricionais || (!data.informacoesNutricionais.ingredientes && !data.informacoesNutricionais.alergenicos)) data.informacoesNutricionais = null;
 
             this.$emit('submit', data);
         }
