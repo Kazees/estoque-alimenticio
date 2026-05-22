@@ -10,7 +10,6 @@
             
             <v-list-subheader>Administração</v-list-subheader>
             <v-list-item prepend-icon="mdi-account-multiple" title="Funcionários" to="/admin/funcionarios" />
-            <v-list-item prepend-icon="mdi-package-variant-closed" title="Gestão de Produtos" to="/admin/produtos" />
         </template>
     </v-list>
 </template>

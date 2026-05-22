@@ -7,6 +7,7 @@
             <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Novo Produto</v-btn>
         </div>
 
+        <ProdutoCriticos :produtos="useProdutoStore.produtos"/>
         <ProdutoFilter />
         <ProdutoList :produtos="useProdutoStore.produtos" @edit="openEdit" @delete="openDelete" />
         <ConfirmComponent ref="confirmDialog" @confirm="confirmDelete" @cancel="cancelDelete"/>
@@ -34,6 +35,7 @@ import ProdutoFilter from '@/components/produto/ProdutoFilter.vue';
 import { ProdutoService } from '@/scripts/services/ProdutoService';
 import { useProdutoStore } from '@/stores/produto.store';
 import ConfirmComponent from '@/components/feedback/ConfirmComponent.vue';
+import ProdutoCriticos from '@/components/produto/ProdutoCriticos.vue';
 
 export default {
     name: 'ProdutoView',
@@ -43,6 +45,7 @@ export default {
         ProdutoList,
         ProdutoFilter,
         ConfirmComponent,
+        ProdutoCriticos
     },
     data() {
         return {

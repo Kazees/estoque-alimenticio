@@ -15,6 +15,12 @@ export class FuncionarioService {
         private readonly enderecoRepository: EnderecoRepository,
     ) {}
 
+    async findById(id: string): Promise<FuncionarioEntity> {
+        const funcionario = await this.funcionarioRepository.find(Number(id));
+        if (!funcionario) throw new NotFoundException('Funcionario nao encontrado');
+        return funcionario;
+    }
+
     async update(input: UpdateFuncionarioInput, id: string): Promise<FuncionarioEntity> {
         const funcionario: FuncionarioEntity | null = await this.funcionarioRepository.find(Number(id));
         if (!funcionario) throw new NotFoundException('Funcionario nao encontrado');

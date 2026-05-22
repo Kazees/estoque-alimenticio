@@ -22,15 +22,6 @@ const router = createRouter({
             requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
           } 
         },
-        {
-          path: '/admin/produtos',
-          name: 'admin-produtos',
-          component: () => import('@/views/admin/AdminProdutosView.vue'),
-          meta: {
-            requiresAuth: true, // Precisa estar logado para acessar
-            requiredRole: RolesEnum.ADMIN // Precisa ser admin para acessar
-          }
-        },
         // Rota protegida - Qualquer user ou admin (Funcionário)
         {
           path: '/produto',

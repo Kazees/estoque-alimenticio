@@ -21,7 +21,15 @@ interface ProdutoModel {
     categoria: CategoriaEnum;
     informacoesNutricionais: InformacoesNutricionaisModel;
     unidadeMedida: UnidadeMedidaEnum;
-    cadastrado_funcionario: { id: number; name: string };
+    cadastrado_funcionario: { 
+        id: number; 
+        name: string 
+    };
+    lote?: {
+        data_validade: Date;
+        quantidade: number;
+        preco_venda: number;
+    }
 }
 
 interface ProdutoInput {
