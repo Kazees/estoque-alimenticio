@@ -21,7 +21,12 @@ export class FuncionarioAdminRepository {
     }
 
     async findByEmail(email: string): Promise<FuncionarioEntity | null> {
-        return this.repository.findOne({where: {email}});
+        return this.repository.findOne({
+            where: {
+                email,
+                active: true
+            }
+        });
     }
 
     async list(filter?: FuncionarioAdminFilter): Promise<FuncionarioEntity[]> {

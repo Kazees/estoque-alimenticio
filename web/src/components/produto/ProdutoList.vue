@@ -12,7 +12,7 @@
             class="elevation-1"
         >
         <template v-slot:[`item.categoria`]="{ item }">
-            {{ formatEnum(item.categoria) }}
+            {{  formatEnum(item.categoria)  }}
         </template>
 
         <template v-slot:[`item.unidadeMedida`]="{ item }">

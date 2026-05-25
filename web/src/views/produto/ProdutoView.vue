@@ -77,16 +77,6 @@ export default {
                 this.$refs.toast.error(msg);
             }
         },
-        async openDelete(produto) {
-            try {
-                await ProdutoService.delete(produto.id);
-                await this.loadProdutos();
-                this.$refs.toast.success('Produto excluído com sucesso');
-            } catch (error) {
-                const msg = error?.response?.data?.message || error?.message || 'Erro ao excluir produto';
-                this.$refs.toast.error(msg);
-            }
-        },
         async handleCreate(data) {
             this.loading = true;
 
@@ -120,13 +110,12 @@ export default {
                 await ProdutoService.delete(this.selectProduto.id);
                 await this.loadProdutos();
                 this.$refs.toast.success('Produto excluído com sucesso');
-                this.$refs.confirmDialog.close();
+
             } catch (error) {
                 const msg = error?.response?.data?.message || error?.message || 'Erro ao excluir produto';
                 this.$refs.toast.error(msg);
             }
         },
-
     }
 }
 </script>

@@ -18,7 +18,7 @@ export class EnderecoController {
     @ApiOperation({ summary: 'Listar regioes', description: 'Listar todas as regioes' })
     @ApiResponse({ status: 200, type: [RegiaoEntity] })
     async listRegioes(): Promise<RegiaoEntity[]> {
-        return this.enderecoService.listRegioes();
+        return await this.enderecoService.listRegioes();
     }
 
     @Get('/estados')
@@ -26,7 +26,7 @@ export class EnderecoController {
     @ApiQuery({ name: 'regiaoId', type: Number, required: false })
     @ApiResponse({ status: 200, type: [EstadoEntity] })
     async listEstados(@Query('regiaoId') regiaoId?: number): Promise<EstadoEntity[]> {
-        return this.enderecoService.listEstados(regiaoId ? Number(regiaoId) : undefined);
+        return await this.enderecoService.listEstados(regiaoId ? Number(regiaoId) : undefined);
     }
 
     @Get('/municipios')
@@ -34,7 +34,7 @@ export class EnderecoController {
     @ApiQuery({ name: 'estadoId', type: Number, required: false })
     @ApiResponse({ status: 200, type: [MunicipioEntity] })
     async listMunicipios(@Query('estadoId') estadoId?: number): Promise<MunicipioEntity[]> {
-        return this.enderecoService.listMunicipios(estadoId ? Number(estadoId) : undefined);
+        return await this.enderecoService.listMunicipios(estadoId ? Number(estadoId) : undefined);
     }
 
     @Get('/bairros')
@@ -42,6 +42,7 @@ export class EnderecoController {
     @ApiQuery({ name: 'municipioId', type: Number, required: false })
     @ApiResponse({ status: 200, type: [BairroEntity] })
     async listBairros(@Query('municipioId') municipioId?: number): Promise<BairroEntity[]> {
-        return this.enderecoService.listBairros(municipioId ? Number(municipioId) : undefined);
+        const id = municipioId ? Number(municipioId) : undefined;
+        return await this.enderecoService.listBairros(id);
     }
 }

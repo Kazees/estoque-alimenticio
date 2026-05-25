@@ -4,88 +4,154 @@
         <v-container>
             <v-row>
                 <v-col cols="12" sm="6">
-                    <v-text-field 
-                        :rules="[v => !!v || 'Campo obrigatório']" 
-                        v-model="form.name" 
-                        label="Nome *" 
-                        required 
-                    />
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <v-text-field 
-                        :rules="[v => !!v || 'Campo obrigatório']" 
-                        v-model="form.email" 
-                        label="Email *" 
-                        required 
-                    />
-                </v-col>
-                <v-col cols="12" sm="6">
-                    <v-text-field 
+                    <v-text-field
+                        v-model="form.name"
+                        label="Nome *"
                         :rules="[v => !!v || 'Campo obrigatório']"
-                        :append-icon="show1 ? 'mdi-eye' : 'mdi-eye-off'"
-                        :type="show1 ? 'text' : 'password'"
-                        v-model="form.password" 
-                        label="password *" 
-                        required 
                     />
                 </v-col>
+                <v-col cols="12" sm="6">
+                    <v-text-field
+                        v-model="form.email"
+                        label="Email *"
+                        type="email"
+                        :rules="[v => !!v || 'Campo obrigatório']"
+                    />
+                </v-col>
+                <v-col cols="12" sm="12">
+                    <v-text-field
+                        v-model="form.password"
+                        label="Senha *"
+                        :type="showPassword ? 'text' : 'password'"
+                        :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+                        :rules="[v => !!v || 'Campo obrigatório']"
+                        @click:append="showPassword = !showPassword"
+                    />
+                </v-col>
+
                 <v-col cols="12">
                     <v-expansion-panels>
                         <v-expansion-panel title="Contato">
                             <v-expansion-panel-text>
-                                <v-text-field v-model="form.contato.codigo_pais" clearable label="Codigo Pais" type="number" required />
-                                <v-text-field v-model="form.contato.ddd" clearable label="DDD" type="number" required />
-                                <v-text-field v-model="form.contato.ddd" clearable label="DDD" type="number" required />
+                                <v-row>
+                                    <v-col cols="12" sm="3">
+                                        <v-text-field
+                                            v-model="form.contato.codigo_pais"
+                                            label="Código País *"
+                                            type="number"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="3">
+                                        <v-text-field
+                                            v-model="form.contato.ddd"
+                                            label="DDD *"
+                                            type="number"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-text-field
+                                            v-model="form.contato.numero"
+                                            label="Número *"
+                                            type="number"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                </v-row>
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>
                 </v-col>
+
                 <v-col cols="12">
                     <v-expansion-panels>
                         <v-expansion-panel title="Endereço">
                             <v-expansion-panel-text>
-                                <v-text-field v-model="form.endereco.logradouro" clearable label="Logradouro *" required />
-                                <v-text-field v-model="form.endereco.numero" clearable label="Numero *" type="number" required />
-                                <v-text-field v-model="form.endereco.complemento" clearable label="Complemento" />
-                                <v-text-field v-model="form.endereco.cep" clearable label="CEP *" type="number" required />
-
-                                <v-select 
-                                    v-model="estadoId" 
-                                    :items="estados" 
-                                    item-title="name" 
-                                    item-value="id" 
-                                    label="Estado *"
-                                    required
-                                    @update:model-value="onChangeEstado"
-                                />
-
-                                <v-select 
-                                    v-model="municipioId" 
-                                    :items="municipios" 
-                                    item-title="name" 
-                                    item-value="id" 
-                                    label="Municipio *"
-                                    :disabled="!estadoId"
-                                    required
-                                    @update:model-value="onChangeMunicipio"
-                                />
-
-                                <v-select 
-                                    v-model="form.endereco.bairroId" 
-                                    :items="bairros" 
-                                    item-title="name" 
-                                    item-value="id" 
-                                    label="Bairro *"
-                                    :disabled="!municipioId"
-                                    required
-                                    @update:model-value="onChangeBairro"
-                                />
+                                <v-row>
+                                    <v-col cols="12" sm="8">
+                                        <v-text-field
+                                            v-model="form.endereco.logradouro"
+                                            label="Logradouro *"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="4">
+                                        <v-text-field
+                                            v-model="form.endereco.numero"
+                                            label="Número *"
+                                            type="number"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-text-field
+                                            v-model="form.endereco.complemento"
+                                            label="Complemento"
+                                            clearable
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-text-field
+                                            v-model="form.endereco.cep"
+                                            label="CEP *"
+                                            type="number"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-select
+                                            v-model="estadoId"
+                                            :items="estados"
+                                            item-title="name"
+                                            item-value="id"
+                                            label="Estado *"
+                                            clearable
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                            @update:model-value="onChangeEstado"
+                                        />
+                                    </v-col>
+                                    <v-col cols="12" sm="6">
+                                        <v-select
+                                            v-model="municipioId"
+                                            :items="municipios"
+                                            item-title="name"
+                                            item-value="id"
+                                            label="Município *"
+                                            clearable
+                                            :disabled="!estadoId"
+                                            :rules="[v => !!v || 'Campo obrigatório']"
+                                            @update:model-value="onChangeMunicipio"
+                                        />
+                                    </v-col>
+                                    <v-col v-if="bairros.length > 0 || (municipioId && bairrosCarregados)" cols="12">
+                                        <v-select
+                                            v-model="form.endereco.bairroId"
+                                            :items="bairros"
+                                            item-title="name"
+                                            item-value="id"
+                                            :label="bairros.length > 0 ? 'Bairro *' : 'Bairro'"
+                                            clearable
+                                            :disabled="!municipioId"
+                                            :hint="bairros.length === 0 ? 'Nenhum bairro cadastrado para este município' : ''"
+                                            persistent-hint
+                                            :rules="bairros.length > 0 ? [v => !!v || 'Campo obrigatório'] : []"
+                                        />
+                                    </v-col>
+                                </v-row>
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>
                 </v-col>
             </v-row>
         </v-container>
+
         <v-card-actions class="justify-center">
             <v-btn color="primary" variant="elevated" @click="handleSubmit">Salvar</v-btn>
         </v-card-actions>
@@ -94,55 +160,76 @@
 
 <script>
 import ToastComponent from '@/components/feedback/ToastComponent.vue';
-
+import { EnderecoService } from '@/scripts/services/EnderecoService';
 
 export default {
-    name: 'ProdutoForm',
-    components: {
-        ToastComponent
-    },
+    name: 'FuncionarioForm',
+    components: { ToastComponent },
     emits: ['submit'],
     props: {
-        produto: {
+        funcionario: {
             type: Object,
             default: null
         }
     },
     data() {
         return {
+            showPassword: false,
+            estadoId: null,
+            municipioId: null,
+            estados: [],
+            municipios: [],
+            bairros: [],
+            bairrosCarregados: false,
             form: {
                 name: '',
                 email: '',
                 password: '',
-            },
+                contato: {
+                    codigo_pais: '',
+                    ddd: '',
+                    numero: ''
+                },
+                endereco: {
+                    cep: '',
+                    logradouro: '',
+                    numero: '',
+                    complemento: '',
+                    bairroId: null,
+                    municipioId: null
+                }
+            }
         };
     },
+    async created() {
+        this.estados = await EnderecoService.listEstados();
+    },
     methods: {
-        resetForm() {
-            this.form = {
-                name: '',
-                codigo: '',
-                descricao: '',
-                perecivel: false,
-                categoria: null,
-                informacoesNutricionais: {
-                    ingredientes: '',
-                    alergenicos: '',
-                },
-                unidadeMedida: null,
-            };
+        async onChangeEstado(estadoId) {
+            this.municipioId = null;
+            this.form.endereco.bairroId = null;
+            this.municipios = [];
+            this.bairros = [];
+            this.bairrosCarregados = false;
+            if (!estadoId) return;
+            this.municipios = await EnderecoService.listMunicipios(estadoId);
+        },
+        async onChangeMunicipio(municipioId) {
+            this.form.endereco.bairroId = null;
+            this.form.endereco.municipioId = municipioId ?? null;
+            this.bairros = [];
+            this.bairrosCarregados = false;
+            if (!municipioId) return;
+            this.bairros = await EnderecoService.listBairros(municipioId);
+            this.bairrosCarregados = true;
         },
         async handleSubmit() {
-            const {valid} = await this.$refs.form.validate();
+            const { valid } = await this.$refs.form.validate();
             if (!valid) {
                 this.$refs.toast.error('Preencha todos os campos obrigatórios');
                 return;
             }
-
-            const data = {...this.form};
-            if (!data.informacoesNutricionais || (!data.informacoesNutricionais.ingredientes && !data.informacoesNutricionais.alergenicos)) data.informacoesNutricionais = null;
-
-            this.$emit('submit', data);
+            this.$emit('submit', { ...this.form });
         }
     }
 }

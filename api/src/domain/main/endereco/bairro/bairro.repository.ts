@@ -11,7 +11,8 @@ export class BairroRepository {
     ) {}
 
     async listByMunicipio(municipioId?: number): Promise<BairroEntity[]> {
-        const where = municipioId ? { municipioId } : {};
-        return this.repository.find({ where, order: { name: 'asc' } });
+        return this.repository.find({
+            where: { municipioId }
+        });
     }
 }

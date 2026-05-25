@@ -4,7 +4,10 @@ interface EnderecoModel {
     numero: number;
     complemento?: string;
     cep: string;
-    bairroId: number;
+    bairroId?: number;
+    bairro?: { id: number; name: string; municipio?: { id: number; name: string; estado?: { id: number; name: string } } };
+    municipioId?: number;
+    municipio?: { id: number; name: string; estadoId?: number; estado?: { id: number; name: string } };
 }
 
 interface EnderecoInput {
@@ -12,7 +15,8 @@ interface EnderecoInput {
     numero: number;
     complemento?: string;
     cep: string;
-    bairroId: number;
+    bairroId?: number;
+    municipioId?: number;
 }
 
 export type EnderecoOutput = EnderecoModel;

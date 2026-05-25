@@ -7,7 +7,7 @@
             <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Novo Funcionário</v-btn>
         </div>
 
-        <FuncionarioList :funcionarios="funcionario" @edit="openEdit" @delete="openDelete" />
+        <FuncionarioList :funcionarios="funcionarios" @delete="openDelete" />
         <ConfirmComponent ref="confirmDialog" @confirm="confirmDelete" @cancel="cancelDelete"/>
 
         <v-dialog v-model="dialog" max-width="800px" scrollable>
@@ -30,7 +30,7 @@ import ToastComponent from '@/components/feedback/ToastComponent.vue';
 import ConfirmComponent from '@/components/feedback/ConfirmComponent.vue';
 import FuncionarioForm from '@/components/funcionario/FuncionarioForm.vue';
 import FuncionarioList from '@/components/funcionario/FuncionarioList.vue';
-import AdminFuncionarioService from '@/services/FuncionarioService';
+import { AdminFuncionarioService } from '@/scripts/services/FuncionarioService';
 
 export default {
     name: 'AdminFuncionariosView',
@@ -49,17 +49,55 @@ export default {
         };
     },
     async created() {
-
+        await this.loadFuncionarios();
     },
     methods: {
+        openCreate() {
+            this.selectFuncionario = null;
+            this.dialog = true;
+        },
+        async handleCreate(data) {
+            this.loading = true;
+
+            try {
+                await AdminFuncionarioService.create(data);
+                await this.loadFuncionarios();
+                this.dialog = false;
+                this.$refs.toast.success('Funcionário criado com sucesso');
+            }
+            catch (error) {
+                const msg = error?.response?.data?.message || error?.message || 'Erro ao salvar produto';
+                this.$refs.toast.error(msg);
+            }
+            finally {
+                this.loading = false;
+            }
+        },
         async loadFuncionarios() {
             try {
-                const data = await AdminFuncionarioService.list({ });
+                const data = await AdminFuncionarioService.list();
                 this.funcionarios = data;
             } catch (error) {
                 const msg = error?.response?.data?.message || error?.message || 'Erro ao carregar funcionários';
                 this.$refs.toast.error(msg);
             }
+        },
+        async confirmDelete() {
+            try {
+                await AdminFuncionarioService.delete(this.selectFuncionario.id);
+                await this.loadFuncionarios();
+                this.$refs.toast.success('Funcionário excluído com sucesso');
+            } catch (error) {
+                const msg = error?.response?.data?.message || error?.message || 'Erro ao excluir funcionário';
+                this.$refs.toast.error(msg);
+            }
+        },
+        openDelete(funcionario) {
+            this.selectFuncionario = funcionario;
+            this.$refs.confirmDialog.open('Excluir Funcionário', `Tem certeza que deseja excluir o Funcionário: ${funcionario.name}?`);
+        },
+        cancelDelete() {
+            this.selectFuncionario = null;
         }
     }
 }

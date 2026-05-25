@@ -47,14 +47,14 @@
                     <v-col cols="12" md="2">
                         <v-text-field v-model="form.endereco.numero" label="N°" variant="outlined" density="compact" />
                     </v-col>
-                    <v-col cols="12" md="4">
+                    <v-col v-if="form.endereco?.bairro?.name" cols="12" md="4">
                         <v-text-field :model-value="form.endereco?.bairro?.name" label="Bairro" variant="outlined" density="compact" disabled />
                     </v-col>
                     <v-col cols="12" md="5">
-                        <v-text-field :model-value="form.endereco?.bairro?.municipio?.name" label="Cidade" variant="outlined" density="compact" disabled />
+                        <v-text-field :model-value="form.endereco?.municipio?.name || form.endereco?.bairro?.municipio?.name" label="Cidade" variant="outlined" density="compact" disabled />
                     </v-col>
                     <v-col cols="12" md="3">
-                        <v-text-field :model-value="form.endereco?.bairro?.municipio?.estado?.name" label="Estado" variant="outlined" density="compact" disabled />
+                        <v-text-field :model-value="form.endereco?.municipio?.estado?.name || form.endereco?.bairro?.municipio?.estado?.name" label="Estado" variant="outlined" density="compact" disabled />
                     </v-col>
                 </v-row>
             </v-form>

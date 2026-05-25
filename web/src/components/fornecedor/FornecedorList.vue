@@ -1,30 +1,24 @@
 <template>
     <v-card border>
         <v-card-title class="d-flex justify-space-between align-center pa-4">
-            Funcionários Cadastrados
+            Fornecedores Cadastrados
         </v-card-title>
         <v-divider />
 
         <v-data-table
             :headers="headers"
-            :items="funcionarios"
+            :items="fornecedores"
             :loading="loading"
             class="elevation-1"
         >
-        <template v-slot:[`item.role`]="{ item }">
-            {{  formatEnum(item.role)  }}
-        </template>
-
-        <template v-slot:[`item.active`]="{ item }">
-            <v-chip :color="item.active ? 'success' : 'error'" size="small">
-                {{ item.active ? 'Ativo' : 'Inativo' }}
-            </v-chip>
-        </template>
 
         <template v-slot:[`item.actions`]="{ item }">
             <v-card class="d-flex justify-right" flat >
                 <v-btn icon color="error" @click="$emit('delete', item)" size='30' v-if="authStore.isAdmin">
                     <v-icon>mdi-delete</v-icon>
+                </v-btn>
+                <v-btn icon color="info" @click="$emit('edit', item)" size='30' v-if="authStore.isAdmin">
+                    <v-icon>mdi-pencil</v-icon>
                 </v-btn>
             </v-card>
         </template>
@@ -33,13 +27,12 @@
 </template>
 
 <script>
-import { Format } from '@/scripts/utils/Format';
 import { useAuthStore } from '@/stores/auth.store';
 
 export default {
-    name: 'FuncionarioList',
+    name: 'FornecedorList',
     props: {
-        funcionarios: {
+        fornecedores: {
             type: Array,
             default: () => []
         },
@@ -48,23 +41,15 @@ export default {
             default: false
         }
     },
-    emits: ['delete'],
+    emits: ['delete', 'edit'],
     data() {
         return {
             authStore: useAuthStore(),
             headers: [
-                { title: 'Nome', key: 'name' },
-                { title: 'Email', key: 'email' },
-                { title: 'Cargo', key: 'role' },
-                { title: 'Status', key: 'active' },
+                { title: 'Nome', key: 'nome_empresa' },
                 { title: 'Ações', key: 'actions', sortable: false }
             ]
         }
     },
-    methods: {
-        formatEnum(value) {
-            return Format.formatEnum(value);
-        },
-    }
 }
 </script>

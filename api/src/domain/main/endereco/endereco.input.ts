@@ -35,10 +35,18 @@ export class EnderecoInput {
     cep: string;
 
     @ApiProperty({
-        example: 'Bairro 1',
+        example: 1,
         description: 'ID do Bairro',
-        required: true
+        required: false
     })
-    @IsNotEmpty({ message: 'O bairro deve ser informado' })
-    bairroId: number;
+    @IsOptional()
+    bairroId?: number;
+
+    @ApiProperty({
+        example: 1,
+        description: 'ID do Município',
+        required: false
+    })
+    @IsOptional()
+    municipioId?: number;
 }
