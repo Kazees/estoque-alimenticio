@@ -84,7 +84,7 @@ docker-compose up -d
 |---------|-----|
 | Web | http://localhost:3000 |
 | API | http://localhost:8080 |
-| Swagger | http://localhost:8080/api |
+| Swagger | http://localhost:8080/docs#/ |
 
 ### 4. Executar Migrations
 
