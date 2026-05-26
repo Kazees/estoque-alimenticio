@@ -48,11 +48,11 @@ export class EnderecoEntity {
     }
 
     update(input: EnderecoInput) {
-        if (input.logradouro) this.logradouro = input.logradouro;
-        if (input.numero) this.numero = input.numero;
-        if (input.complemento) this.complemento = input.complemento;
-        if (input.cep) this.cep = input.cep;
-        if (input.bairroId) this.bairroId = input.bairroId;
-        if (input.municipioId) this.municipioId = input.municipioId;
+        if (input.logradouro !== undefined) this.logradouro = input.logradouro;
+        if (input.numero !== undefined) this.numero = input.numero;
+        if (input.complemento !== undefined) this.complemento = input.complemento;
+        if (input.cep !== undefined) this.cep = input.cep;
+        if (input.bairroId !== undefined) this.bairroId = input.bairroId ?? undefined;
+        if (input.municipioId !== undefined) this.municipioId = input.municipioId ?? undefined;
     }
 }
