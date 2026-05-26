@@ -35,7 +35,15 @@ export class ProdutoOutput {
     @ApiProperty()
     cadastrado_funcionario: { id: number, name: string };
 
+    @ApiProperty()
+    lote?: {
+        data_validade: Date;
+        quantidade: number;
+        preco_venda: number;
+    }
+
     constructor(produto: ProdutoEntity) {
+        const produtoLote= produto.lote?.[0];
         this.id = produto.id;
         this.name = produto.name;
         this.codigo = produto.codigo;
@@ -46,5 +54,6 @@ export class ProdutoOutput {
         this.informacoesNutricionais = produto.informacoesNutricionais;
         this.unidadeMedida = produto.unidadeMedida;
         this.cadastrado_funcionario = { id: produto.cadastrado_funcionarioId, name: produto.cadastrado_funcionario?.name };
+        this.lote = produtoLote ? { data_validade: produtoLote.lote.data_validade, quantidade: produtoLote.quantidade, preco_venda: produtoLote.lote.preco_venda } : undefined;
     }
 }

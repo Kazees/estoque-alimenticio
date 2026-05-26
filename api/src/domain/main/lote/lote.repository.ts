@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { LoteEntity } from "@app/domain/main/lote/lote.entity";
 import { Repository } from "typeorm";
+import { LoteFilter } from "@app/domain/main/lote/lote.filter";
 
 @Injectable()
 export class LoteRepository {
@@ -14,10 +15,21 @@ export class LoteRepository {
         return this.repository.save(input);
     }
 
-    async list(): Promise<LoteEntity[]> {
-        return this.repository.find({
-            relations: ['fornecedor', 'fornecedor.contato', 'localizacao']
-        });
+    async list(filter?: LoteFilter): Promise<LoteEntity[]> {
+        const db = this.repository.createQueryBuilder('lote')
+            .leftJoinAndSelect('lote.fornecedor', 'fornecedor')
+            .leftJoinAndSelect('fornecedor.contato', 'contato')
+            .leftJoinAndSelect('lote.localizacao', 'localizacao')
+            .leftJoinAndSelect('lote.produto', 'produto_lote')
+            .leftJoinAndSelect('produto_lote.produto', 'produto')
+            .skip(((filter?.page || 1) - 1) * (filter?.size || 10))
+            .take(filter?.size || 10);
+
+        if (filter?.produtoId) {
+            db.andWhere('produto_lote.produtoId = :produtoId', { produtoId: filter.produtoId });
+        }
+
+        return db.getMany();
     }
 
     async find(id: number): Promise<LoteEntity | null> {

@@ -1,12 +1,12 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { ProdutoLoteEntity } from "@app/domain/main/produto/produtoLote.entity";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 
 @Injectable()
 export class ProdutoLoteRepository {
     constructor(
-        @InjectRepository(ProdutoLoteEntity) 
+        @InjectRepository(ProdutoLoteEntity)
         private readonly repository: Repository<ProdutoLoteEntity>
     ) {}
 
@@ -14,13 +14,9 @@ export class ProdutoLoteRepository {
         return this.repository.save({ produtoId, loteId, quantidade });
     }
 
-    async updateQuantidade(produtoId: number, loteId: number, quantidade: number) {
-        await this.repository.update({ 
-            produtoId, 
-            loteId 
-        }, { 
-            quantidade 
-        }); 
+    async updateQuantidade(produtoId: number, loteId: number, quantidade: number, manager?: EntityManager) {
+        const repo = manager ? manager.getRepository(ProdutoLoteEntity) : this.repository;
+        await repo.update({ produtoId, loteId }, { quantidade });
     }
 
     async find (produtoId: number, loteId: number): Promise<ProdutoLoteEntity | null> {

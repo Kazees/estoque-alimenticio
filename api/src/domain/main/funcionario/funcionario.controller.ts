@@ -1,5 +1,5 @@
 import { FuncionarioInput, UpdateFuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
-import { Body, Controller, Patch, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Patch, Req, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FuncionarioOutput } from "@app/domain/admin/funcionario/funcionario.admin.output";
 import { AuthGuard } from "@app/domain/auth/auth.guard";
@@ -14,6 +14,15 @@ export class FuncionarioController {
     constructor(
         private readonly funcinarioService: FuncionarioService
     ) {}
+
+    @Get('/me')
+    @ApiOperation({ summary: 'Busca o funcionário logado' })
+    @ApiResponse({ status: 200, type: FuncionarioOutput })
+    @ApiResponse({ status: 401, description: 'Funcionario sem permissão' })
+    async me(@Req() request: AuthRequest): Promise<FuncionarioOutput> {
+        const entity = await this.funcinarioService.findById(request.auth.sub);
+        return new FuncionarioOutput(entity);
+    }
 
     @Patch('/me')
     @ApiOperation({

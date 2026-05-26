@@ -3,6 +3,7 @@ import { FuncionarioInput } from "@app/domain/main/funcionario/funcionario.input
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
+import { FuncionarioAdminFilter } from "@app/domain/admin/funcionario/funcionario.admin.filter";
 
 @Injectable()
 export class FuncionarioAdminRepository {
@@ -20,16 +21,21 @@ export class FuncionarioAdminRepository {
     }
 
     async findByEmail(email: string): Promise<FuncionarioEntity | null> {
-        return this.repository.findOne({where: {email}});
+        return this.repository.findOne({
+            where: {
+                email,
+                active: true
+            }
+        });
     }
 
-    async list(): Promise<FuncionarioEntity[]> {
+    async list(filter?: FuncionarioAdminFilter): Promise<FuncionarioEntity[]> {
         return this.repository.find({
-            where: {
-                active: true
-            },
+            where: { active: true },
             relations: ['contato', 'endereco'],
-            order: {name: 'asc'}
+            order: { name: 'asc' },
+            skip: ((filter?.page || 1) - 1) * (filter?.size || 10),
+            take: filter?.size || 10,
         });
     }
 }

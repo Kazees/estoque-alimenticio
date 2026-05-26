@@ -13,7 +13,7 @@ export class FuncionarioRepository {
 
     async find(id: number): Promise<FuncionarioEntity | null> {
         return this.repository.findOne({
-            relations: ['contato', 'endereco'],
+            relations: ['contato', 'endereco', 'endereco.municipio', 'endereco.municipio.estado', 'endereco.bairro', 'endereco.bairro.municipio', 'endereco.bairro.municipio.estado', 'endereco.bairro.municipio.estado.regiao'],
             where: {
                 id: id
             }

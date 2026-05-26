@@ -6,6 +6,7 @@ import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
 import { FornecedorEntity } from "@app/domain/main/fornecedor/fornecedor.entity";
 import { FornecedorInput, UpdateFornecedorInput } from "@app/domain/main/fornecedor/fornecedor.input";
+import { FornecedorFilter } from "@app/domain/main/fornecedor/fornecedor.filter";
 
 @Injectable()
 export class FornecedorService {
@@ -23,8 +24,8 @@ export class FornecedorService {
         return this.fornecedorRepository.find(saved.id) as Promise<FornecedorEntity>;
     }
 
-    async list(): Promise<FornecedorEntity[]> {
-        return this.fornecedorRepository.list();
+    async list(filter?: FornecedorFilter): Promise<FornecedorEntity[]> {
+        return this.fornecedorRepository.list(filter);
     }
 
     async delete(id: number): Promise<void> {

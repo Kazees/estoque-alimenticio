@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 import { TransacoesEntity } from "@app/domain/main/transacoes/transacoes.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransacoesFilter } from "./transacoes.filter";
@@ -11,8 +11,9 @@ export class TransacoesRepository {
         private readonly repository: Repository<TransacoesEntity>,
     ) {}
 
-    async save(transacao: TransacoesEntity): Promise<TransacoesEntity> {
-        return this.repository.save(transacao);
+    async save(transacao: TransacoesEntity, manager?: EntityManager): Promise<TransacoesEntity> {
+        const repo = manager ? manager.getRepository(TransacoesEntity) : this.repository;
+        return repo.save(transacao);
     }
 
     async findById(id: number): Promise<TransacoesEntity | null> {
@@ -43,6 +44,8 @@ export class TransacoesRepository {
         if (filter?.funcionarioId) db.andWhere('transacao.funcionarioId = :funcionarioId', { funcionarioId: filter.funcionarioId });
         if (filter?.dataInicio) db.andWhere('transacao.createdAt >= :dataInicio', { dataInicio: filter.dataInicio });
         if (filter?.dataFim) db.andWhere('transacao.createdAt <= :dataFim', { dataFim: filter.dataFim });
+
+        db.skip(((filter?.page || 1) - 1) * (filter?.size || 10)).take(filter?.size || 10);
 
         return db.getMany();
     }

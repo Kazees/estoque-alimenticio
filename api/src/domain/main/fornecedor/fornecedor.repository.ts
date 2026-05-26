@@ -2,6 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { FornecedorEntity } from "@app/domain/main/fornecedor/fornecedor.entity";
 import { Repository, UpdateResult } from "typeorm";
+import { FornecedorFilter } from "@app/domain/main/fornecedor/fornecedor.filter";
 
 @Injectable()
 export class FornecedorRepository {
@@ -23,13 +24,13 @@ export class FornecedorRepository {
         });
     }
 
-    async list(): Promise<FornecedorEntity[]> {
+    async list(filter?: FornecedorFilter): Promise<FornecedorEntity[]> {
         return this.repository.find({
             relations: ['contato', 'endereco'],
-            where: { 
-                active: true 
-            },
-            order: {nome_empresa: 'asc'}
+            where: { active: true },
+            order: { nome_empresa: 'asc' },
+            skip: ((filter?.page || 1) - 1) * (filter?.size || 10),
+            take: filter?.size || 10,
         });
     }
 

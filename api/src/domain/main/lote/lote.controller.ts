@@ -1,9 +1,10 @@
 import { AuthGuard } from "@app/domain/auth/auth.guard";
-import { Body, Controller, Get, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Get, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { LoteInput } from "@app/domain/main/lote/lote.input";
 import { LoteOutput } from "@app/domain/main/lote/lote.output";
 import { LoteService } from "@app/domain/main/lote/lote.service";
+import { LoteFilter } from "@app/domain/main/lote/lote.filter";
 
 @ApiBearerAuth()
 @ApiTags('Lote')
@@ -34,8 +35,8 @@ export class LoteController {
     })
     @ApiResponse({ status: 200, description: 'Lotes listados com sucesso', type: [LoteOutput] })
     @ApiResponse({ status: 400, description: 'Erro ao listar lotes' })
-    async list(): Promise<LoteOutput[]> {
-        const lotes = await this.loteService.list();
+    async list(@Query() filter?: LoteFilter): Promise<LoteOutput[]> {
+        const lotes = await this.loteService.list(filter);
         return lotes.map(lote => new LoteOutput(lote));
     }
 }

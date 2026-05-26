@@ -41,6 +41,8 @@ export class TransacoesController {
     @ApiQuery({ name: 'funcionarioId', type: Number, required: false })
     @ApiQuery({ name: 'dataInicio', type: String, required: false })
     @ApiQuery({ name: 'dataFim', type: String, required: false })
+    @ApiQuery({ name: 'page', type: Number, required: false })
+    @ApiQuery({ name: 'size', type: Number, required: false })
     @ApiResponse({ status: 200, description: 'Transacoes listadas com sucesso', type: [TransacoesOutput] })
     @ApiResponse({ status: 400, description: 'Erro ao listar transacoes' })
     async list(@Query() filter?: TransacoesFilter): Promise<TransacoesOutput[]> {

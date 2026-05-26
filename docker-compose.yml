@@ -28,12 +28,9 @@ services:
       - ./api/.env
     ports:
       - 8080:8080
-    volumes:
-      - ./api:/app
-      - /app/node_modules
     environment:
-      DB_HOST: ${DB_HOST:-localhost}
-      DB_PORT: ${DB_PORT:-5432}
+      DB_HOST: db
+      DB_PORT: 5432
       DB_USER: ${DB_USER:-postgres}
       DB_PASSWORD: ${DB_PASSWORD:-postgres}
       DB_NAME: ${DB_NAME:-dbestoque}
@@ -53,9 +50,6 @@ services:
     container_name: web
     ports:
       - 3000:3000
-    volumes:
-      - ./web:/app
-      - /app/node_modules
     environment:
       VITE_API_URL: ${VITE_API_URL:-http://localhost:8080}
     depends_on:
