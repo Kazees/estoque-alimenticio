@@ -15,17 +15,6 @@
             />
         </v-col>
         <v-col cols="12" sm="3">
-            <v-text-field
-                v-model="filter.quantidade"
-                label="Quantidade"
-                type="number"
-                variant="outlined"
-                density="compact"
-                clearable
-                @update:model-value="applyFilter"
-            />
-        </v-col>
-        <v-col cols="12" sm="3">
             <v-select
                 v-model="filter.produtoId"
                 :items="produtos"
@@ -45,7 +34,7 @@
                 :items="funcionarios"
                 item-title="name"
                 item-value="id"
-                label="Funcionario"
+                label="Funcionário"
                 variant="outlined"
                 density="compact"
                 clearable
@@ -55,15 +44,30 @@
         </v-col>
         <v-col cols="12" sm="3">
             <v-text-field
+                v-model="filter.quantidade"
+                label="Quantidade"
+                type="number"
+                variant="outlined"
+                density="compact"
+                clearable
+                hide-details
+                @update:model-value="applyFilter"
+            />
+        </v-col>
+
+        <v-col cols="12" sm="6">
+            <v-text-field
                 v-model="filter.dataInicio"
-                label="Data Inicio"
+                label="Data Início"
                 type="date"
                 variant="outlined"
                 density="compact"
                 clearable
+                hide-details
                 @update:model-value="applyFilter"
             />
-
+        </v-col>
+        <v-col cols="12" sm="6">
             <v-text-field
                 v-model="filter.dataFim"
                 label="Data Fim"
@@ -71,6 +75,7 @@
                 variant="outlined"
                 density="compact"
                 clearable
+                hide-details
                 @update:model-value="applyFilter"
             />
         </v-col>
@@ -108,6 +113,7 @@ export default {
     },
     async created() {
         this.filter = { ...this.useTransacoesStore.filter };
+        
         const [produtos, funcionarios] = await Promise.all([
             ProdutoService.list(),
             AdminFuncionarioService.list()

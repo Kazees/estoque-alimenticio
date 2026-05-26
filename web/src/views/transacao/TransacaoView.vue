@@ -7,8 +7,8 @@
             <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Nova Transação</v-btn>
         </div>
 
-        <TransacaoFilter />
-        <TransacaoList :transacoes="useTransacoesStore.produtos" />
+        <TransacoesFilter />
+        <TransacoesList :transacoes="useTransacoesStore.transacoes" />
 
         <v-dialog v-model="dialog" max-width="800px" scrollable>
             <v-card>
@@ -18,7 +18,7 @@
                 </v-card-title>
                 <v-divider />
                 <v-card-text>
-                    <TransacaoForm @submit="handleCreate" :transacao="selectTransacao" :loading="loading" />
+                    <TransacoesForm @submit="handleCreate" :transacao="selectTransacao" :loading="loading" />
                 </v-card-text>
             </v-card>
         </v-dialog>
@@ -26,20 +26,20 @@
 </template>
 
 <script>
-import TransacaoForm from '@/components/transacao/TransacaoForm.vue';
+import TransacoesForm from '@/components/transacoes/TransacoesForm.vue';
 import ToastComponent from '@/components/feedback/ToastComponent.vue';
-import TransacaoList from '@/components/transacao/TransacaoList.vue';
-import TransacaoFilter from '@/components/transacao/TransacaoFilter.vue';
+import TransacoesList from '@/components/transacoes/TransacoesList.vue';
+import TransacoesFilter from '@/components/transacoes/TransacoesFilter.vue';
 import { useTransacoesStore } from '@/stores/transcoes.store';
-import { TransacaoService } from '@/services/transacao.service';
+import { TransacaoService } from '@/scripts/services/TransacaoService';
 
 export default {
     name: 'TransacaoView',
     components: {
-        TransacaoForm,
+        TransacoesForm,
         ToastComponent,
-        TransacaoList,
-        TransacaoFilter,
+        TransacoesList,
+        TransacoesFilter,
     },
     data() {
         return {

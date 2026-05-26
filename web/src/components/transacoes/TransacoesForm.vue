@@ -3,22 +3,23 @@
         <ToastComponent ref="toast" />
         <v-container>
             <v-row>
-                <v-col cols="12" sm="4">
-                    <v-select 
-                        v-model="form.tipo" 
-                        :items="tipos" 
-                        item-title="text" 
-                        item-value="value" 
-                        label="Tipo de Transação *" 
+                <v-col cols="12" sm="6">
+                    <v-select
+                        v-model="form.tipo"
+                        :items="tipos"
+                        item-title="text"
+                        item-value="value"
+                        label="Tipo de Transação *"
                         :rules="[v => !!v || 'Campo obrigatório']"
+                        clearable
                     />
-
                 </v-col>
-
-                <v-col cols="12" sm="4">
-                    <v-textarea 
-                        v-model="form.observacao" 
-                        label="Observação"
+                <v-col cols="12" sm="6">
+                    <v-text-field
+                        v-model="form.quantidade"
+                        label="Quantidade *"
+                        type="number"
+                        :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
 
@@ -31,8 +32,10 @@
                         label="Produto *"
                         :rules="[v => !!v || 'Campo obrigatório']"
                         @update:model-value="onChangeProduto"
+                        clearable
                     />
-
+                </v-col>
+                <v-col cols="12" sm="6">
                     <v-select
                         v-model="form.loteId"
                         :items="lotes"
@@ -40,14 +43,16 @@
                         item-value="id"
                         label="Lote *"
                         :rules="[v => !!v || 'Campo obrigatório']"
+                        clearable
                     />
                 </v-col>
-                <v-col cols="12" sm="6">
-                    <v-text-field
-                        v-model="form.quantidade"
-                        label="Quantidade *"
-                        type="number"
-                        :rules="[v => !!v || 'Campo obrigatório']"
+
+                <v-col cols="12">
+                    <v-textarea
+                        v-model="form.observacao"
+                        label="Observação"
+                        rows="3"
+                        auto-grow
                     />
                 </v-col>
             </v-row>

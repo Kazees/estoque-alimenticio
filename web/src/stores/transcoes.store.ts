@@ -3,20 +3,14 @@ import { TransacaoService } from "@/scripts/services/TransacaoService";
 import { defineStore } from "pinia";
 
 export const useTransacoesStore = defineStore("transacoes", {
-    state: () => ({
-        loading: false,
-        transacoes: [] as TransacoesOutput[],
-        filter: {
-            produtoId: undefined,
-            quantidade: undefined,
-            tipo: undefined,
-            funcionarioId: undefined,
-            dataInicio: undefined,
-            dataFim: undefined,
-            page: 1,
-            size: 10
-        } as TransacoesFilter
-    }),
+    state: () => {
+        const savedFilter = localStorage.getItem('transacoesFilter')
+        return {
+            transacoes: [] as TransacoesOutput[],
+            loading: false,
+            filter: savedFilter ? JSON.parse(savedFilter) : { page: 1, size: 10 } as TransacoesFilter
+        }
+    },
     actions: {
         async list(): Promise<void> {
             this.loading = true;
@@ -32,6 +26,7 @@ export const useTransacoesStore = defineStore("transacoes", {
         },
         setFilter(filter: TransacoesFilter): void {
             this.filter = { ...this.filter, ...filter };
+            localStorage.setItem("transacoesFilter", JSON.stringify(this.filter));
             this.list();
         }
     }

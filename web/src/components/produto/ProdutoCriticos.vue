@@ -3,7 +3,7 @@
         <v-col cols="12" sm="6" v-if="produtosVencendo.length">
             <v-card color="warning" class="pa-2" variant="tonal">
                 <v-card-title prepend-icons="mdi-clock-alert">
-                    <v-icon icon="mdi-clock-alert" /> Vencendo em 30 dias {{ produtosVencendo.length }}
+                    <v-icon icon="mdi-clock-alert" /> Quantidade de produtos vencendo em 30 dias: {{ produtosVencendo.length }}
                 </v-card-title>
 
                 <v-card-text>

@@ -4,29 +4,77 @@
         <v-container>
             <v-row>
                 <v-col cols="12" sm="6">
-                    <v-text-field :rules="[v => !!v || 'Campo obrigatório']" v-model="form.name" label="Nome *" required></v-text-field>
+                    <v-text-field 
+                        :rules="[v => !!v || 'Campo obrigatório']" 
+                        v-model="form.name" 
+                        label="Nome *" 
+                        required
+                    />
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <v-text-field :rules="[v => !!v || 'Campo obrigatório']" v-model="form.codigo" label="Código *" required></v-text-field>
+                    <v-text-field 
+                        :rules="[v => !!v || 'Campo obrigatório']" 
+                        v-model="form.codigo" 
+                        label="Código *" 
+                        required
+                    />
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <v-select :rules="[v => !!v || 'Campo obrigatório']" v-model="form.categoria" required :items="categoria" item-title="text" item-value="value" label="Categoria *"></v-select>
+                    <v-select 
+                        :rules="[v => !!v || 'Campo obrigatório']" 
+                        v-model="form.categoria" 
+                        required 
+                        :items="categoria" 
+                        item-title="text" 
+                        item-value="value" 
+                        label="Categoria *"
+                    />
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <v-select :rules="[v => !!v || 'Campo obrigatório']" v-model="form.unidadeMedida" required :items="unidadeMedida" item-title="text" item-value="value" label="Unidade de Medida *"></v-select>
+                    <v-select 
+                        :rules="[v => !!v || 'Campo obrigatório']" 
+                        v-model="form.unidadeMedida" 
+                        required 
+                        :items="unidadeMedida" 
+                        item-title="text" 
+                        item-value="value" 
+                        label="Unidade de Medida *"
+                    />
                 </v-col>
                 <v-col cols="12" sm="6">
-                    <v-select v-model="form.perecivel" :items="perecivel" item-title="text" item-value="value" label="Perecível"></v-select>
+                    <v-select 
+                        v-model="form.perecivel" 
+                        :items="perecivel" 
+                        item-title="text" 
+                        item-value="value" 
+                        label="Perecível"
+                    />
                 </v-col>
                 <v-col cols="12">
-                    <v-textarea v-model="form.descricao" :rules="[v => !!v || 'Campo obrigatório']" label="Descrição *"></v-textarea>
+                    <v-textarea 
+                        v-model="form.descricao" 
+                        :rules="[v => !!v || 'Campo obrigatório']" 
+                        label="Descrição *"
+                    />
                 </v-col>
                 <v-col cols="12">
                     <v-expansion-panels>
                         <v-expansion-panel title="Informações Nutricionais">
                             <v-expansion-panel-text>
-                                <v-textarea v-model="form.informacoesNutricionais.ingredientes" clearable rows="2" row-height="20" label="Ingredientes"></v-textarea>
-                                <v-textarea v-model="form.informacoesNutricionais.alergenicos" clearable rows="1" row-height="15" label="Alergênicos"></v-textarea>
+                                <v-textarea 
+                                    v-model="form.informacoesNutricionais.ingredientes" 
+                                    clearable 
+                                    rows="2" 
+                                    row-height="20" 
+                                    label="Ingredientes"
+                                />
+                                <v-textarea 
+                                    v-model="form.informacoesNutricionais.alergenicos" 
+                                    clearable 
+                                    rows="1" 
+                                    row-height="15" 
+                                    label="Alergênicos"
+                                />
                             </v-expansion-panel-text>
                         </v-expansion-panel>
                     </v-expansion-panels>

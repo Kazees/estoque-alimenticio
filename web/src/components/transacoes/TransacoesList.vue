@@ -12,13 +12,13 @@
             class="elevation-1"
         >
             <template v-slot:[`item.tipo`]="{ item }">
-                <v-chip :color="item.tipo ? 'success' : 'error'" size="small">
+                <v-chip :color="item.tipo ? 'error' : 'success'" size="small">
                     {{ formatEnum(item.tipo) }}
                 </v-chip>
             </template>
 
-            <template v-slot:[`item.preco_venda`]="{ item }">
-                R$ {{  item.preco_venda.toFixed(2) }}
+            <template v-slot:[`item.lote.preco_venda`]="{ item }">
+                R$ {{  item.lote.preco_venda.toFixed(2) }}
             </template>
 
             <template v-slot:[`item.createdAt`]="{ item }">
