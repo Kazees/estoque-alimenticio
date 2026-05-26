@@ -1,5 +1,5 @@
 import { Injectable } from "@nestjs/common";
-import { Repository } from "typeorm";
+import { EntityManager, Repository } from "typeorm";
 import { TransacoesEntity } from "@app/domain/main/transacoes/transacoes.entity";
 import { InjectRepository } from "@nestjs/typeorm";
 import { TransacoesFilter } from "./transacoes.filter";
@@ -11,8 +11,9 @@ export class TransacoesRepository {
         private readonly repository: Repository<TransacoesEntity>,
     ) {}
 
-    async save(transacao: TransacoesEntity): Promise<TransacoesEntity> {
-        return this.repository.save(transacao);
+    async save(transacao: TransacoesEntity, manager?: EntityManager): Promise<TransacoesEntity> {
+        const repo = manager ? manager.getRepository(TransacoesEntity) : this.repository;
+        return repo.save(transacao);
     }
 
     async findById(id: number): Promise<TransacoesEntity | null> {

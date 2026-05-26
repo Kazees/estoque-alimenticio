@@ -58,6 +58,7 @@ export default {
                 { title: 'Data de Validade', key: 'data_validade' },
                 { title: 'Data de Entrada', key: 'data_entrada' },
                 { title: 'Fornecedor', key: 'fornecedor.nome_empresa' },
+                { title: 'Produto', key: 'produto.name' },
                 { title: 'Localização', key: 'localizacao.corredores' },
             ]
         }

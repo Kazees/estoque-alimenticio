@@ -115,7 +115,7 @@ export default {
         },
         async onChangeProduto(produtoId) {
             this.form.loteId = null;
-            this.lotes = await LoteService.listByProduto(produtoId);
+            this.lotes = produtoId ? await LoteService.listByProduto(produtoId) : [];
         }
     }
 }

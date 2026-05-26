@@ -28,7 +28,7 @@
                 @update:model-value="applyFilter"
             />
         </v-col>
-        <v-col cols="12" sm="3">
+        <v-col v-if="isAdmin" cols="12" sm="3">
             <v-select
                 v-model="filter.funcionarioId"
                 :items="funcionarios"
@@ -84,6 +84,7 @@
 
 <script>
 import { useTransacoesStore } from '@/stores/transcoes.store';
+import { useAuthStore } from '@/stores/auth.store';
 import { Format } from '@/scripts/utils/Format';
 import { TransacaoEnum } from '@/scripts/utils/Enums';
 import { ProdutoService } from '@/scripts/services/ProdutoService'
@@ -108,26 +109,27 @@ export default {
                 text: Format.formatEnum(value),
                 value: value
             })),
-            useTransacoesStore: useTransacoesStore()
+            useTransacoesStore: useTransacoesStore(),
+            isAdmin: useAuthStore().isAdmin,
         };
     },
     async created() {
         this.filter = { ...this.useTransacoesStore.filter };
-        
-        const [produtos, funcionarios] = await Promise.all([
-            ProdutoService.list(),
-            AdminFuncionarioService.list()
-        ])
+
+        const requests = [ProdutoService.list()];
+        if (this.isAdmin) requests.push(AdminFuncionarioService.list());
+
+        const [produtos, funcionarios] = await Promise.all(requests);
 
         this.produtos = produtos;
-        this.funcionarios = funcionarios;
+        this.funcionarios = funcionarios ?? [];
     },
     methods: {
         applyFilter() {
             this.useTransacoesStore.setFilter(this.filter);
         },
-        formatEnum(value) { 
-            return Format.formatEnum(value); 
+        formatEnum(value) {
+            return Format.formatEnum(value);
         },
     }
 }

@@ -20,12 +20,13 @@ export class LoteRepository {
             .leftJoinAndSelect('lote.fornecedor', 'fornecedor')
             .leftJoinAndSelect('fornecedor.contato', 'contato')
             .leftJoinAndSelect('lote.localizacao', 'localizacao')
+            .leftJoinAndSelect('lote.produto', 'produto_lote')
+            .leftJoinAndSelect('produto_lote.produto', 'produto')
             .skip(((filter?.page || 1) - 1) * (filter?.size || 10))
             .take(filter?.size || 10);
 
         if (filter?.produtoId) {
-            db.leftJoin('lote.produto', 'produto_lote')
-              .andWhere('produto_lote.produtoId = :produtoId', { produtoId: filter.produtoId });
+            db.andWhere('produto_lote.produtoId = :produtoId', { produtoId: filter.produtoId });
         }
 
         return db.getMany();
