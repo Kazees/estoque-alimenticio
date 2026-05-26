@@ -6,7 +6,7 @@
         <v-divider />
 
         <v-data-table
-            :headers="headers"
+            :headers="visibleHeaders"
             :items="produtos"
             :loading="loading"
             class="elevation-1"
@@ -25,12 +25,12 @@
             </v-chip>
         </template>
 
-        <template v-slot:[`item.actions`]="{ item }">
+        <template v-slot:[`item.actions`]="{ item }" v-if="authStore.isAdmin">
             <v-card class="d-flex justify-right" flat >
-                <v-btn icon color="primary" @click="$emit('edit', item)" size='30' v-if="authStore.isAdmin">
+                <v-btn icon color="primary" @click="$emit('edit', item)" size='30' >
                     <v-icon>mdi-pencil</v-icon>
                 </v-btn>
-                <v-btn icon color="error" @click="$emit('delete', item)" size='30' v-if="authStore.isAdmin">
+                <v-btn icon color="error" @click="$emit('delete', item)" size='30'>
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
             </v-card>
@@ -69,6 +69,11 @@ export default {
                 { title: 'Cadastrado', key: 'cadastrado_funcionario.name' },
                 { title: 'Ações', key: 'actions', sortable: false }
             ]
+        }
+    },
+    computed: {
+        visibleHeaders() {
+            return this.headers.filter(header => header.key !== 'actions' || this.authStore.isAdmin);
         }
     },
     methods: {

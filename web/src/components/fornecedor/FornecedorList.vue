@@ -6,7 +6,7 @@
         <v-divider />
 
         <v-data-table
-            :headers="headers"
+            :headers="visibleHeaders"
             :items="fornecedores"
             :loading="loading"
             class="elevation-1"
@@ -47,8 +47,15 @@ export default {
             authStore: useAuthStore(),
             headers: [
                 { title: 'Nome', key: 'nome_empresa' },
+                { title: 'CEP', key: 'endereco.cep' },
+                { title: 'Contato', key: 'contato.numero' },
                 { title: 'Ações', key: 'actions', sortable: false }
             ]
+        }
+    },
+    computed: {
+        visibleHeaders() {
+            return this.headers.filter(header => header.key !== 'actions' || this.authStore.isAdmin);
         }
     },
 }
