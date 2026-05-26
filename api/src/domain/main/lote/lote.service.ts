@@ -5,6 +5,7 @@ import { LocalizacaoRepository } from "@app/domain/main/localizacao/localizacao.
 import { FornecedorRepository } from "@app/domain/main/fornecedor/fornecedor.repository";
 import { ProdutoLoteRepository } from "@app/domain/main/produto/produtoLote.repository";
 import { LoteRepository } from "@app/domain/main/lote/lote.repository";
+import { LoteFilter } from "@app/domain/main/lote/lote.filter";
 
 @Injectable()
 export class LoteService {
@@ -31,7 +32,7 @@ export class LoteService {
         return lote;
     }
 
-    async list(): Promise<LoteEntity[]> {
-        return this.loteRepository.list();
+    async list(filter?: LoteFilter): Promise<LoteEntity[]> {
+        return this.loteRepository.list(filter);
     }
 }

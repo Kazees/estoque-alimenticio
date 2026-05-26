@@ -5,14 +5,13 @@ import { FuncionarioController } from "@app/domain/main/funcionario/funcionario.
 import { FuncionarioRepository } from "@app/domain/main/funcionario/funcionario.repository";
 import { FuncionarioService } from "@app/domain/main/funcionario/funcionario.service";
 import { ContatoEntity } from "@app/domain/main/contato/contato.entity";
-import { EnderecoEntity } from "@app/domain/main/endereco/endereco.entity";
 import { ContatoRepository } from "@app/domain/main/contato/contato.repository";
-import { EnderecoRepository } from "@app/domain/main/endereco/endereco.repository";
+import { EnderecoModule } from "@app/domain/main/endereco/endereco.module";
 
 @Module({
-    imports: [TypeOrmModule.forFeature([FuncionarioEntity, ContatoEntity, EnderecoEntity])],
+    imports: [TypeOrmModule.forFeature([FuncionarioEntity, ContatoEntity]), EnderecoModule],
     controllers: [FuncionarioController],
-    providers: [FuncionarioRepository, FuncionarioService, ContatoRepository, EnderecoRepository],
+    providers: [FuncionarioRepository, FuncionarioService, ContatoRepository],
     exports: [FuncionarioService, FuncionarioRepository]
 })
 export class FuncionarioModule {}

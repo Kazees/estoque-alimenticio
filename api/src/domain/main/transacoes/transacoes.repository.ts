@@ -44,6 +44,8 @@ export class TransacoesRepository {
         if (filter?.dataInicio) db.andWhere('transacao.createdAt >= :dataInicio', { dataInicio: filter.dataInicio });
         if (filter?.dataFim) db.andWhere('transacao.createdAt <= :dataFim', { dataFim: filter.dataFim });
 
+        db.skip(((filter?.page || 1) - 1) * (filter?.size || 10)).take(filter?.size || 10);
+
         return db.getMany();
     }
 }

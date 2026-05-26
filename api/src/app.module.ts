@@ -9,6 +9,8 @@ import { FornecedorModule } from '@app/domain/main/fornecedor/fornecedor.module'
 import { ProdutoModule } from '@app/domain/main/produto/produto.module';
 import { LoteModule } from '@app/domain/main/lote/lote.module';
 import { TransacoesModule } from '@app/domain/main/transacoes/transacoes.module';
+import { EnderecoModule } from '@app/domain/main/endereco/endereco.module';
+import { HomeModule } from '@app/domain/home/home.module';
 
 
 @Module({
@@ -20,8 +22,10 @@ import { TransacoesModule } from '@app/domain/main/transacoes/transacoes.module'
       useClass: DatabaseConfig,
       inject: [DatabaseConfig],
     }),
+    HomeModule,
     AuthModule,
     FuncionarioAdminModule,
+    EnderecoModule,
     FuncionarioModule, FornecedorModule, ProdutoModule,
     LoteModule, TransacoesModule],
   controllers: [],

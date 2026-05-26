@@ -1,6 +1,7 @@
 import { Column, Entity, JoinColumn, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { EnderecoInput } from "@app/domain/main/endereco/endereco.input";
 import { BairroEntity } from "@app/domain/main/endereco/bairro/bairro.entity";
+import { MunicipioEntity } from "@app/domain/main/endereco/municipio/municipio.entity";
 
 @Entity({ name: 'Endereco' })
 export class EnderecoEntity {
@@ -19,22 +20,30 @@ export class EnderecoEntity {
     @Column({ name: 'cep', nullable: false })
     cep: string;
 
-    @Column({ name: 'bairroId', nullable: false })
-    bairroId: number
+    @Column({ name: 'bairroId', nullable: true })
+    bairroId?: number;
 
     @ManyToOne(() => BairroEntity, (bairro) => bairro.id)
     @JoinColumn({ name: 'bairroId', referencedColumnName: 'id' })
-    bairro: BairroEntity;
+    bairro?: BairroEntity;
+
+    @Column({ name: 'municipioId', nullable: true })
+    municipioId?: number;
+
+    @ManyToOne(() => MunicipioEntity, (municipio) => municipio.id)
+    @JoinColumn({ name: 'municipioId', referencedColumnName: 'id' })
+    municipio?: MunicipioEntity;
 
     static of(input: EnderecoInput): EnderecoEntity {
         const endereco = new EnderecoEntity();
-    
+
         endereco.logradouro = input.logradouro;
         endereco.numero = input.numero;
         endereco.complemento = input.complemento;
         endereco.cep = input.cep;
-        endereco.bairroId = input.bairroId;
-    
+        endereco.bairroId = input.bairroId ?? undefined;
+        endereco.municipioId = input.municipioId ?? undefined;
+
         return endereco;
     }
 
@@ -44,5 +53,6 @@ export class EnderecoEntity {
         if (input.complemento) this.complemento = input.complemento;
         if (input.cep) this.cep = input.cep;
         if (input.bairroId) this.bairroId = input.bairroId;
+        if (input.municipioId) this.municipioId = input.municipioId;
     }
 }

@@ -1,9 +1,10 @@
 import { ApiPropertyOptional } from "@nestjs/swagger";
-import { IsBoolean, IsDateString, IsEnum, IsNumber, IsOptional } from "class-validator";
-import { Transform, Type } from "class-transformer";
+import { IsDateString, IsEnum, IsNumber, IsOptional } from "class-validator";
+import { Type } from "class-transformer";
 import { TransacaoEnum } from "@app/domain/shared/enums/transacao.enum";
+import { PageFilter } from "@app/domain/shared/filter/page.filter";
 
-export class TransacoesFilter {
+export class TransacoesFilter extends PageFilter {
     @ApiPropertyOptional()
     @IsOptional()
     @Type(() => Number)
@@ -38,6 +39,7 @@ export class TransacoesFilter {
     dataFim?: Date;
 
     constructor(produtoId?: number, quantidade?: number, tipo?: TransacaoEnum, funcionarioId?: number, dataInicio?: Date, dataFim?: Date) {
+        super();
         this.produtoId = produtoId;
         this.quantidade = quantidade;
         this.tipo = tipo;

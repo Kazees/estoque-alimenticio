@@ -1,9 +1,10 @@
 import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
 import { FuncionarioInput } from "@app/domain/main/funcionario/funcionario.input";
-import { Body, Controller, Delete, Get, Param, Post, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Post, Query, UseGuards } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiParam, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { FuncionarioAdminService } from "@app/domain/admin/funcionario/funcionario.admin.service";
 import { FuncionarioOutput } from "@app/domain/admin/funcionario/funcionario.admin.output";
+import { FuncionarioAdminFilter } from "@app/domain/admin/funcionario/funcionario.admin.filter";
 
 @ApiBearerAuth()
 @ApiTags('Admin Funcionario')
@@ -34,8 +35,8 @@ export class FuncionarioAdminController {
     })
     @ApiResponse({ status: 200, description: 'Funcionários encontrados', type: [FuncionarioOutput] })
     @ApiResponse({ status: 401, description: 'Funcionario sem permissão' })
-    async list(): Promise<FuncionarioOutput[]> {
-        const entities = await this.funcionarioAdminService.list();
+    async list(@Query() filter?: FuncionarioAdminFilter): Promise<FuncionarioOutput[]> {
+        const entities = await this.funcionarioAdminService.list(filter);
         return entities.map(entity => new FuncionarioOutput(entity));
     }
 
