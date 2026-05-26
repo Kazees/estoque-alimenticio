@@ -12,7 +12,7 @@
             class="elevation-1"
         >
             <template v-slot:[`item.tipo`]="{ item }">
-                <v-chip :color="item.tipo ? 'error' : 'success'" size="small">
+                <v-chip :color="item.tipo === 'SAIDA' ? 'error' : 'success'" size="small">
                     {{ formatEnum(item.tipo) }}
                 </v-chip>
             </template>

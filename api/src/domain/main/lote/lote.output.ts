@@ -21,6 +21,9 @@ export class LoteOutput {
     fornecedor: { nome_empresa: string, contato: { ddd: string, numero: string } };
 
     @ApiProperty()
+    produto: { id: number, name: string } | null;
+
+    @ApiProperty()
     data_entrada: Date;
 
     @ApiProperty()
@@ -33,6 +36,7 @@ export class LoteOutput {
         this.preco_venda = Number(lote.preco_venda);
         this.localizacao = { corredores: lote.localizacao.corredores, prateleiras: lote.localizacao.prateleiras, seccoes: lote.localizacao.seccoes };
         this.fornecedor = { nome_empresa: lote.fornecedor.nome_empresa, contato: { ddd: lote.fornecedor.contato.ddd, numero: lote.fornecedor.contato.numero } };
+        this.produto = lote.produto?.[0]?.produto ? { id: lote.produto[0].produto.id, name: lote.produto[0].produto.name } : null;
         this.data_entrada = lote.data_entrada;
         this.data_validade = lote.data_validade;
     }
