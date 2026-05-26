@@ -10,6 +10,9 @@ const LoteService = {
     list: (filter?: PageFilter): Promise<LoteOutput[]> => {
         return BaseService.get('/lote', { params: filter }).then(response => response.data);
     },
+    listByProduto: (produtoId: number): Promise<LoteOutput[]> => {
+        return BaseService.get('/lote', { params: { produtoId } }).then(response => response.data);
+    },
     listLocalizacao: (filter?: PageFilter): Promise<LocalizacaoModel[]> => {
         return BaseService.get('/localizacao', { params: filter }).then(response => response.data);
     }

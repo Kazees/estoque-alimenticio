@@ -16,11 +16,19 @@ export class LoteRepository {
     }
 
     async list(filter?: LoteFilter): Promise<LoteEntity[]> {
-        return this.repository.find({
-            relations: ['fornecedor', 'fornecedor.contato', 'localizacao'],
-            skip: ((filter?.page || 1) - 1) * (filter?.size || 10),
-            take: filter?.size || 10,
-        });
+        const db = this.repository.createQueryBuilder('lote')
+            .leftJoinAndSelect('lote.fornecedor', 'fornecedor')
+            .leftJoinAndSelect('fornecedor.contato', 'contato')
+            .leftJoinAndSelect('lote.localizacao', 'localizacao')
+            .skip(((filter?.page || 1) - 1) * (filter?.size || 10))
+            .take(filter?.size || 10);
+
+        if (filter?.produtoId) {
+            db.leftJoin('lote.produto', 'produto_lote')
+              .andWhere('produto_lote.produtoId = :produtoId', { produtoId: filter.produtoId });
+        }
+
+        return db.getMany();
     }
 
     async find(id: number): Promise<LoteEntity | null> {
