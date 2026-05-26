@@ -169,9 +169,32 @@ export default {
     watch: {
         fornecedor: {
             immediate: true,
-            handler(val) {
-                if (val) this.form = {...val};
-                else this.resetForm();
+            deep: true,
+            async handler(val) {
+                if (val && val.id) {
+                    // Deep copy para evitar problemas de reatividade
+                    this.form = JSON.parse(JSON.stringify(val));
+                    this.estadoId = null;
+                    this.municipioId = null;
+                    this.municipios = [];
+                    this.bairros = [];
+                    this.bairrosCarregados = false;
+
+                    // estadoId vem do municipio aninhado (não é coluna direta do endereco)
+                    const estadoId = this.form.endereco?.municipio?.estadoId;
+                    if (estadoId) {
+                        this.estadoId = estadoId;
+                        this.municipios = await EnderecoService.listMunicipios(estadoId);
+
+                        if (this.form.endereco?.municipioId) {
+                            this.municipioId = this.form.endereco.municipioId;
+                            this.bairros = await EnderecoService.listBairros(this.form.endereco.municipioId);
+                            this.bairrosCarregados = true;
+                        }
+                    }
+                } else {
+                    this.resetForm();
+                }
             }
         }
     },
@@ -180,6 +203,11 @@ export default {
     },
     methods: {
         resetForm() {
+            this.estadoId = null;
+            this.municipioId = null;
+            this.municipios = [];
+            this.bairros = [];
+            this.bairrosCarregados = false;
             this.form = {
                 nome_empresa: '',
                 contato: {
@@ -193,7 +221,8 @@ export default {
                     numero: '',
                     complemento: '',
                     bairroId: null,
-                    municipioId: null
+                    municipioId: null,
+                    estadoId: null
                 }
             };
         },

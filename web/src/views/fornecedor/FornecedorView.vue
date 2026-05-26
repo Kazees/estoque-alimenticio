@@ -48,6 +48,14 @@ export default {
             fornecedores: [],
         };
     },
+    watch: {
+        dialog(val) {
+            // Resetar selectFornecedor quando fechar o diálogo
+            if (!val) {
+                this.selectFornecedor = null;
+            }
+        }
+    },
     async created() {
         await this.loadFornecedores();
     },

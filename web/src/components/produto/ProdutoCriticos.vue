@@ -23,7 +23,7 @@
         <v-col cols="12" sm="6" v-if="produtosEstoqueMinimo.length">
             <v-card color="error" class="pa-2" variant="tonal">
                 <v-card-title prepend-icons="mdi-alert">
-                    <v-icon icon="mdi-alert" /> Estoque Minimo {{ produtosEstoqueMinimo.length }}
+                    <v-icon icon="mdi-alert" /> Quantidade de produtos em estoque minimo: {{ produtosEstoqueMinimo.length }}
                 </v-card-title>
 
                 <v-card-text>
