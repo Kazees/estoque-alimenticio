@@ -6,21 +6,20 @@
             <span class="text-h5 font-weight-bold">Lotes</span>
             <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Novo Lote</v-btn>
         </div>
+        <LoteList :lotes="lotes" :loading="loading" @view="openView" />
 
         <v-dialog v-model="dialog" max-width="800px" scrollable>
             <v-card>
                 <v-card-title class="d-flex justify-space-between align-center pa-4">
-                    {{ 'Criar Lote' }}
+                    {{ selectLote ? 'Visualizar Lote' : 'Criar Lote'  }}
                     <v-icon icon="mdi-close" @click="dialog = false" style="cursor: pointer" />
                 </v-card-title>
                 <v-divider />
                <v-card-text>
-                    <LoteForm @submit="handleSubmit" :lote="selectLote" :loading="loading" />
+                    <LoteForm @submit="handleSubmit" :lote="selectLote" :loading="loading" :readOnly="!!selectLote" />
                 </v-card-text>
             </v-card>
         </v-dialog>
-
-        <LoteList :lotes="lotes" :loading="loading" />
     </v-container>
 </template>
 
@@ -51,6 +50,10 @@ export default {
     methods: {
         openCreate() {
             this.selectLote = null;
+            this.dialog = true;
+        },
+        openView(lote) {
+            this.selectLote = lote;
             this.dialog = true;
         },
         async loadLotes() {

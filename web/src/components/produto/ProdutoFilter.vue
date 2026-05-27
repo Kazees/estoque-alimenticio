@@ -20,6 +20,8 @@
                 variant="outlined"
                 density="compact"
                 clearable
+                min="0"
+                @keydown="e => e.key === '-' && e.preventDefault()"
                 hint="Baseado no preço de venda do lote"
                 persistent-hint
                 @update:model-value="applyFilter"
@@ -33,6 +35,8 @@
                 variant="outlined"
                 density="compact"
                 clearable
+                min="0"
+                @keydown="e => e.key === '-' && e.preventDefault()"
                 hint="Baseado no preço de venda do lote"
                 persistent-hint
                 @update:model-value="applyFilter"

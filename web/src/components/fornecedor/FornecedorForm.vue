@@ -7,6 +7,7 @@
                     <v-text-field
                         v-model="form.nome_empresa"
                         label="Nome da Empresa *"
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -20,6 +21,7 @@
                         label="Código País *"
                         type="number"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -29,6 +31,7 @@
                         label="DDD *"
                         type="number"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -38,6 +41,7 @@
                         label="Número *"
                         type="number"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -50,6 +54,7 @@
                         v-model="form.endereco.logradouro"
                         label="Logradouro *"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -59,6 +64,7 @@
                         label="Número *"
                         type="number"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -67,6 +73,7 @@
                         v-model="form.endereco.complemento"
                         label="Complemento"
                         clearable
+                        :disabled="readOnly"
                     />
                 </v-col>
                 <v-col cols="12" sm="6">
@@ -75,6 +82,7 @@
                         label="CEP *"
                         type="number"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -86,6 +94,7 @@
                         item-value="id"
                         label="Estado *"
                         clearable
+                        :disabled="readOnly"
                         :rules="[v => !!v || 'Campo obrigatório']"
                         @update:model-value="onChangeEstado"
                     />
@@ -98,7 +107,7 @@
                         item-value="id"
                         label="Município *"
                         clearable
-                        :disabled="!estadoId"
+                        :disabled="readOnly || !estadoId"
                         :rules="[v => !!v || 'Campo obrigatório']"
                         @update:model-value="onChangeMunicipio"
                     />
@@ -111,7 +120,7 @@
                         item-value="id"
                         :label="bairros.length > 0 ? 'Bairro *' : 'Bairro'"
                         clearable
-                        :disabled="!municipioId"
+                        :disabled="readOnly || !municipioId"
                         :hint="bairros.length === 0 ? 'Nenhum bairro cadastrado para este município' : ''"
                         persistent-hint
                         :rules="bairros.length > 0 ? [v => !!v || 'Campo obrigatório'] : []"
@@ -120,7 +129,7 @@
             </v-row>
         </v-container>
 
-        <v-card-actions class="justify-center">
+        <v-card-actions class="justify-center" v-if="!readOnly">
             <v-btn color="primary" variant="elevated" @click="handleSubmit">Salvar</v-btn>
         </v-card-actions>
     </v-form>
@@ -138,6 +147,10 @@ export default {
         fornecedor: {
             type: Object,
             default: null
+        },
+        readOnly: {
+            type: Boolean,
+            default: false
         }
     },
     data() {

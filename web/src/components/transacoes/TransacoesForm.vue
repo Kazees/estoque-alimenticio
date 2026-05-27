@@ -19,6 +19,8 @@
                         v-model="form.quantidade"
                         label="Quantidade *"
                         type="number"
+                        min="0"
+                        @keydown="e => e.key === '-' && e.preventDefault()"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>

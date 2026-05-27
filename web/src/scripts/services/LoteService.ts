@@ -15,6 +15,9 @@ const LoteService = {
     },
     listLocalizacao: (filter?: PageFilter): Promise<LocalizacaoModel[]> => {
         return BaseService.get('/localizacao', { params: filter }).then(response => response.data);
+    },
+    getLocalizacao: (id: number): Promise<LocalizacaoModel> => {
+        return BaseService.get(`/localizacao/${id}`).then(response => response.data);
     }
 }
 

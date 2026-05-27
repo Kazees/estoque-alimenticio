@@ -7,8 +7,21 @@
             <v-btn color="primary" prepend-icon="mdi-plus" @click="openCreate">Novo Fornecedor</v-btn>
         </div>
 
-        <FornecedorList :fornecedores="fornecedores" @edit="openEdit" @delete="openDelete" />
+        <FornecedorList :fornecedores="fornecedores" @edit="openEdit" @delete="openDelete" @view="openView" />
         <ConfirmComponent ref="confirmDialog" @confirm="confirmDelete" @cancel="cancelDelete"/>
+
+        <v-dialog v-model="viewDialog" max-width="800px" scrollable>
+            <v-card>
+                <v-card-title class="d-flex justify-space-between align-center pa-4">
+                    Visualizar Fornecedor
+                    <v-icon icon="mdi-close" @click="viewDialog = false" style="cursor: pointer" />
+                </v-card-title>
+                <v-divider />
+                <v-card-text>
+                    <FornecedorForm :fornecedor="viewFornecedor" :readOnly="true" />
+                </v-card-text>
+            </v-card>
+        </v-dialog>
 
         <v-dialog v-model="dialog" max-width="800px" scrollable>
             <v-card>
@@ -43,8 +56,10 @@ export default {
     data() {
         return {
             dialog: false,
+            viewDialog: false,
             loading: false,
             selectFornecedor: null,
+            viewFornecedor: null,
             fornecedores: [],
         };
     },
@@ -67,6 +82,10 @@ export default {
         openEdit(fornecedor) {
             this.selectFornecedor = fornecedor;
             this.dialog = true;
+        },
+        openView(fornecedor) {
+            this.viewFornecedor = fornecedor;
+            this.viewDialog = true;
         },
         openDelete(fornecedor) {
             this.selectFornecedor = fornecedor;

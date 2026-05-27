@@ -9,6 +9,9 @@ const FornecedorService = {
     list: (filter?: PageFilter): Promise<FornecedorOutput[]> => {
         return BaseService.get("/fornecedor", { params: filter }).then(response => response.data);
     },
+    getById: (id: number): Promise<FornecedorOutput> => {
+        return BaseService.get(`/fornecedor/${id}`).then(response => response.data);
+    },
     delete: (id: number): Promise<void> => {
         return BaseService.delete(`/fornecedor/${id}`).then(response => response.data);
     },

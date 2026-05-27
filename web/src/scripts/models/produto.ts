@@ -26,9 +26,8 @@ interface ProdutoModel {
         name: string 
     };
     lote?: {
-        data_validade: Date;
-        quantidade: number;
-        preco_venda: number;
+        totalQuantidade: number;
+        vencimentos: { fornecedor: string; data_validade: string; quantidade: number }[];
     }
 }
 

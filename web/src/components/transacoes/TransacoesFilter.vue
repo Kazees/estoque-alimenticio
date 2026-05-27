@@ -47,6 +47,8 @@
                 v-model="filter.quantidade"
                 label="Quantidade"
                 type="number"
+                min="0"
+                @keydown="e => e.key === '-' && e.preventDefault()"
                 variant="outlined"
                 density="compact"
                 clearable

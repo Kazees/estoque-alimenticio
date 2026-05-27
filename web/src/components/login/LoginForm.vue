@@ -1,21 +1,31 @@
 <template>
     <div>
         <v-form v-model="valid" @submit.prevent="login">
+            <div class="text-body-large text-medium-emphasis">Conta</div>
             <v-text-field
+                density="compact"
+                prepend-inner-icon="mdi-email-outline"
+                variant="outlined"
                 v-model="email"
-                label="Email"
                 type="email"
+                placeholder="Email"
                 required
-            ></v-text-field>
+            />
+
+            <div class="text-body-large text-medium-emphasis d-flex align-center justify-space-between">Senha</div>
             <v-text-field
                 v-model="password"
-                label="Senha"
-                type="password"
+                placeholder="Senha"
                 required
-            >
-            </v-text-field>
+                :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'"
+                :type="showPassword ? 'text' : 'password'"
+                density="compact"
+                prepend-inner-icon="mdi-lock-outline"
+                variant="outlined"
+                @click:append-inner="showPassword = !showPassword"
+            />
             <v-btn color="primary" type='submit' :loading="authStore.loading">Entrar</v-btn>
-        </v-form>
+        </v-form>        
         <ToastComponent ref="toast" />
     </div>
 </template>
@@ -33,7 +43,8 @@ export default {
             password: '',
             valid: false,
             authStore: useAuthStore(),
-            router: useRouter()
+            router: useRouter(),
+            showPassword: false
         };
     },
     components: {
