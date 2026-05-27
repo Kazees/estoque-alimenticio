@@ -17,16 +17,16 @@ export class FornecedorRepository {
 
     async find(id: number): Promise<FornecedorEntity | null> {
         return this.repository.findOne({
-            relations: ['contato', 'endereco'],
-            where: { 
-                id: id 
-            } 
+            relations: ['contato', 'endereco', 'endereco.municipio'],
+            where: {
+                id: id
+            }
         });
     }
 
     async list(filter?: FornecedorFilter): Promise<FornecedorEntity[]> {
         return this.repository.find({
-            relations: ['contato', 'endereco'],
+            relations: ['contato', 'endereco', 'endereco.municipio'],
             where: { active: true },
             order: { nome_empresa: 'asc' },
             skip: ((filter?.page || 1) - 1) * (filter?.size || 10),

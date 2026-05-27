@@ -18,6 +18,8 @@
                         label="Preço de Custo *"
                         prefix="R$"
                         type="number"
+                        persistent-hint
+                        hint="Preço baseado no conjunto de produtos"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
@@ -27,6 +29,8 @@
                         label="Preço de Venda *"
                         prefix="R$"
                         type="number"
+                        persistent-hint
+                        hint="Preço baseado no conjunto de produtos"
                         :rules="[v => !!v || 'Campo obrigatório']"
                     />
                 </v-col>
