@@ -2,7 +2,7 @@
     <v-container fluid class="fill-height">
         <v-row justify="center" align="center" class="fill-height">
             <v-col cols="2" sm="8" md="4">
-                <v-card elevation="4">
+                <v-card elevation="4" class="mx-auto pa-8 pb-8" max-width="448" rounded="lg">
                     <v-card-title class="text-h5 text-center pa-4">Login</v-card-title>
                     <v-card-text>
                         <LoginForm />

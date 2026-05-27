@@ -25,6 +25,7 @@ export class ProdutoRepository {
             .createQueryBuilder('produto')
             .leftJoinAndSelect('produto.lote', 'produto_lote')
             .leftJoinAndSelect('produto_lote.lote', 'lote')
+            .leftJoinAndSelect('lote.fornecedor', 'lote_fornecedor')
             .leftJoinAndSelect('produto.cadastrado_funcionario', 'cadastrado_funcionario')
             .orderBy('lote.data_validade', 'ASC')
             .addOrderBy('produto_lote.quantidade', 'ASC');

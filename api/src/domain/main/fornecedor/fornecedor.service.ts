@@ -28,6 +28,12 @@ export class FornecedorService {
         return this.fornecedorRepository.list(filter);
     }
 
+    async findOne(id: number): Promise<FornecedorEntity> {
+        const fornecedor = await this.fornecedorRepository.find(id);
+        if (!fornecedor) throw new NotFoundException('Fornecedor não encontrado');
+        return fornecedor;
+    }
+
     async delete(id: number): Promise<void> {
         const fornecedor: FornecedorEntity | null = await this.fornecedorRepository.find(id);
 

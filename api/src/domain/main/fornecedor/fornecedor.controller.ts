@@ -6,6 +6,7 @@ import { FornecedorService } from "@app/domain/main/fornecedor/fornecedor.servic
 import { AuthGuard } from "@app/domain/auth/auth.guard";
 import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
 import { FornecedorFilter } from "@app/domain/main/fornecedor/fornecedor.filter";
+import { NotFoundException } from "@nestjs/common";
 
 @ApiBearerAuth()
 @ApiTags('Fornecedor')
@@ -26,6 +27,18 @@ export class FornecedorController {
     @ApiResponse({ status: 401, description: 'Fornecedor sem permissão' })
     async create(@Body() input: FornecedorInput): Promise<FornecedorOutput> {
         const entity = await this.fornecedorService.create(input);
+        return new FornecedorOutput(entity);
+    }
+
+    @Get('/:id')
+    @ApiOperation({
+        summary: 'Buscar um fornecedor por ID',
+        description: 'Buscar um fornecedor por ID'
+    })
+    @ApiResponse({ status: 200, description: 'Fornecedor encontrado', type: FornecedorOutput })
+    @ApiResponse({ status: 404, description: 'Fornecedor não encontrado' })
+    async findOne(@Param('id') id: number): Promise<FornecedorOutput> {
+        const entity = await this.fornecedorService.findOne(id);
         return new FornecedorOutput(entity);
     }
 

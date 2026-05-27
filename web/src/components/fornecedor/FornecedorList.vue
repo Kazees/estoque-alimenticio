@@ -14,6 +14,9 @@
 
         <template v-slot:[`item.actions`]="{ item }">
             <v-card class="d-flex justify-right" flat >
+                <v-btn icon size="30" @click="$emit('view', item)">
+                    <v-icon>mdi-information</v-icon>
+                </v-btn>
                 <v-btn icon color="error" @click="$emit('delete', item)" size='30' v-if="authStore.isAdmin">
                     <v-icon>mdi-delete</v-icon>
                 </v-btn>
@@ -41,7 +44,7 @@ export default {
             default: false
         }
     },
-    emits: ['delete', 'edit'],
+    emits: ['delete', 'edit', 'view'],
     data() {
         return {
             authStore: useAuthStore(),
@@ -55,7 +58,7 @@ export default {
     },
     computed: {
         visibleHeaders() {
-            return this.headers.filter(header => header.key !== 'actions' || this.authStore.isAdmin);
+            return this.headers;
         }
     },
 }

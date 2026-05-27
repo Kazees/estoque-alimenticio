@@ -18,7 +18,7 @@
             </template>
 
             <template v-slot:[`item.lote.preco_venda`]="{ item }">
-                R$ {{  item.lote.preco_venda.toFixed(2) }}
+                {{ item.lote ? 'R$ ' + item.lote.preco_venda.toFixed(2) : '-' }}
             </template>
 
             <template v-slot:[`item.createdAt`]="{ item }">

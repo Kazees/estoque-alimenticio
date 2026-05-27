@@ -3,9 +3,15 @@ interface LoteModel {
     numero_lote: number;
     preco_custo: number;
     preco_venda: number;
-    localizacao: { corredores: string; prateleiras: string; seccoes: string };
-    fornecedor: { nome_empresa: string; contato: { ddd: string; numero: string } };
-    produto: { id: number; name: string } | null;
+    localizacao: { id: number; corredores: string; prateleiras: string; seccoes: string };
+    fornecedor: {
+        id: number;
+        nome_empresa: string;
+        contato: { ddd: string; numero: string };
+        endereco: { logradouro: string; numero: number; complemento?: string; cep: string; bairro?: { name: string }; municipio?: { name: string } } | null;
+    };
+    produto: { id: number; name: string; codigo: string; descricao: string; categoria: string; perecivel: boolean; unidadeMedida: string } | null;
+    quantidade: number;
     data_entrada: string;
     data_validade: string;
 }

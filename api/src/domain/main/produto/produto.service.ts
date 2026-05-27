@@ -30,6 +30,12 @@ export class ProdutoService {
         return this.produtoRepository.list(filter);
     }
 
+    async findOne(id: number): Promise<ProdutoEntity> {
+        const produto = await this.produtoRepository.find(id);
+        if (!produto) throw new NotFoundException('Produto não encontrado');
+        return produto;
+    }
+
     async update(input: UpdateProdutoInput, id: number): Promise<ProdutoEntity> {
         const produto = await this.produtoRepository.find(id);
         if (!produto) throw new NotFoundException('Produto nao encontrado');

@@ -56,6 +56,18 @@ export class ProdutoController {
         await this.produtoService.delete(id);
     }
 
+    @Get('/:id')
+    @ApiOperation({
+        summary: 'Buscar um produto por ID',
+        description: 'Buscar um produto por ID'
+    })
+    @ApiResponse({ status: 200, description: 'Produto encontrado', type: ProdutoOutput })
+    @ApiResponse({ status: 404, description: 'Produto não encontrado' })
+    async findOne(@Param('id') id: number): Promise<ProdutoOutput> {
+        const produto = await this.produtoService.findOne(id);
+        return new ProdutoOutput(produto);
+    }
+
     @Get()
     @ApiOperation({
         summary: 'Listar todos os produtos',

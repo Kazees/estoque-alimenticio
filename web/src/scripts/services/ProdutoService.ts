@@ -11,6 +11,9 @@ const ProdutoService = {
     delete: (id: number): Promise<void> => {
         return BaseService.delete(`/produto/${id}`).then(response => response.data);
     },
+    getById: (id: number): Promise<ProdutoOutput> => {
+        return BaseService.get(`/produto/${id}`).then(response => response.data);
+    },
     list: (filter?: ProdutoFilter): Promise<ProdutoOutput[]> => {
         return BaseService.get("/produto", { params: filter }).then(response => response.data);
     }

@@ -31,6 +31,13 @@
             <template v-slot:[`item.data_entrada`]="{ item }">
                 {{  new Date(item.data_entrada).toLocaleDateString('pt-BR') }}
             </template>
+
+            <template v-slot:[`item.actions`]="{ item }">
+                <v-btn icon size="30" @click="$emit('view', item)">
+                    <v-icon>mdi-information</v-icon>
+                </v-btn>
+            </template>
+
         </v-data-table>
     </v-card>
 </template>
@@ -49,6 +56,7 @@ export default {
             default: false
         }
     },
+    emits: ['view'],
     data() {
         return {
             headers: [
@@ -60,6 +68,7 @@ export default {
                 { title: 'Fornecedor', key: 'fornecedor.nome_empresa' },
                 { title: 'Produto', key: 'produto.name' },
                 { title: 'Localização', key: 'localizacao.corredores' },
+                { title: 'Ações', key: 'actions', sortable: false }
             ]
         }
     },

@@ -10,6 +10,7 @@ import { ProdutoModule } from '@app/domain/main/produto/produto.module';
 import { LoteModule } from '@app/domain/main/lote/lote.module';
 import { TransacoesModule } from '@app/domain/main/transacoes/transacoes.module';
 import { EnderecoModule } from '@app/domain/main/endereco/endereco.module';
+import { LocalizacaoModule } from '@app/domain/main/localizacao/localizacao.module';
 import { HomeModule } from '@app/domain/home/home.module';
 
 
@@ -26,6 +27,7 @@ import { HomeModule } from '@app/domain/home/home.module';
     AuthModule,
     FuncionarioAdminModule,
     EnderecoModule,
+    LocalizacaoModule,
     FuncionarioModule, FornecedorModule, ProdutoModule,
     LoteModule, TransacoesModule],
   controllers: [],
