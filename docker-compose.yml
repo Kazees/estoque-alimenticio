@@ -55,11 +55,30 @@ services:
     depends_on:
       api:
         condition: service_started
+      redis:
+        condition: service_healthy
     networks:
       - estoque_network
 
+  redis:
+    image: redis:7.0-alpine
+    restart: unless-stopped
+    container_name: redis-estoque
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+    volumes:
+      - redis-data:/data
+    networks:
+    - estoque_network
+
 volumes:
   db-data:
+  redis-data:
 
 networks:
   estoque_network:

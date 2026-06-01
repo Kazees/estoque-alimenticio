@@ -12,6 +12,9 @@ import { TransacoesModule } from '@app/domain/main/transacoes/transacoes.module'
 import { EnderecoModule } from '@app/domain/main/endereco/endereco.module';
 import { LocalizacaoModule } from '@app/domain/main/localizacao/localizacao.module';
 import { HomeModule } from '@app/domain/home/home.module';
+import { CacheModule } from '@nestjs/cache-manager';
+import Keyv from 'keyv';
+import KeyvRedis from '@keyv/redis';
 
 
 @Module({
@@ -29,7 +32,20 @@ import { HomeModule } from '@app/domain/home/home.module';
     EnderecoModule,
     LocalizacaoModule,
     FuncionarioModule, FornecedorModule, ProdutoModule,
-    LoteModule, TransacoesModule],
+    LoteModule, TransacoesModule,
+    CacheModule.registerAsync({
+      useFactory: async () => ({
+        stores: [
+          new Keyv({
+            store: new KeyvRedis(process.env.REDIS_URL ||'redis://localhost:6379'),
+            ttl: 10 * 1000,
+          })
+        ]
+      }),
+      isGlobal: true,
+      //ttl: 10000, // Tempo de vida do cache em segundos (10 segundos)
+    })
+  ],
   controllers: [],
   providers: [ConfigService],
 })
