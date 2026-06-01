@@ -1,5 +1,5 @@
 import { AuthGuard } from "@app/domain/auth/auth.guard";
-import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards } from "@nestjs/common";
+import { Body, Controller, Delete, Get, Param, Patch, Post, Query, Req, UseGuards, UseInterceptors } from "@nestjs/common";
 import { ApiBearerAuth, ApiBody, ApiOperation, ApiQuery, ApiResponse, ApiTags } from "@nestjs/swagger";
 import { ProdutoInput, UpdateProdutoInput } from "@app/domain/main/produto/produto.input";
 import { ProdutoOutput } from "@app/domain/main/produto/produto.output";
@@ -7,6 +7,7 @@ import { ProdutoFilter } from "@app/domain/main/produto/produto.filter";
 import { AuthRequest } from "@app/domain/auth/auth.request";
 import { ProdutoService } from "@app/domain/main/produto/produto.service";
 import { AuthAdminGuard } from "@app/domain/auth/auth.admin.guard";
+import { CacheInterceptor } from "@nestjs/cache-manager";
 
 @ApiBearerAuth()
 @ApiTags('Produto')
@@ -57,6 +58,7 @@ export class ProdutoController {
     }
 
     @Get('/:id')
+    @UseInterceptors(CacheInterceptor) // Adiciona cache para esta rota, nao sobrecarregar
     @ApiOperation({
         summary: 'Buscar um produto por ID',
         description: 'Buscar um produto por ID'
@@ -65,6 +67,8 @@ export class ProdutoController {
     @ApiResponse({ status: 404, description: 'Produto não encontrado' })
     async findOne(@Param('id') id: number): Promise<ProdutoOutput> {
         const produto = await this.produtoService.findOne(id);
+
+        console.log('Teste');
         return new ProdutoOutput(produto);
     }
 
